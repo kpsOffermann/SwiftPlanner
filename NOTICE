@@ -1,0 +1,7 @@
+   
+   Copied and adapted from OptaPlanner (https://github.com/kiegroup/optaplanner)
+   
+NOTICE: This project is based on the optaPlanner engine by kiegroup
+   (https://github.com/kiegroup/optaplanner), which is licensed under the
+   Apache License, Version 2.0, too. Furthermore, this file has been modified
+   including (but not necessarily limited to) translating the original files to Swift.
