@@ -24,7 +24,8 @@
          limited to) translating the original file to Swift.
  */
 
-public final class ScoreUtil {
+// Util class without instances.
+public enum ScoreUtil {
     
     public static let INIT_LABEL = "init"
     public static let HARD_LABEL = "hard"
@@ -56,7 +57,9 @@ public final class ScoreUtil {
         assert(
             suffixedScoreTokens.count == levelSuffixes.count,
             parseScoreTokensErrorMessageBase(scoreClass, scoreString, levelSuffixes)
-                + " the suffixedScoreTokens length (\(suffixedScoreTokens.count)) differs from the levelSuffixes length (\(levelSuffixes.count) or \(levelSuffixes.count + 1))."
+                + " the suffixedScoreTokens length (" + suffixedScoreTokens.count
+                + ") differs from the levelSuffixes length (" + levelSuffixes.count
+                + " or \(levelSuffixes.count + 1))."
         )
         scoreTokens[0] = "0";
         startIndex = 0;
@@ -79,7 +82,9 @@ public final class ScoreUtil {
             _ scoreString: String,
             _ levelSuffixes: [String]
     ) -> String {
-        return "The scoreString (\(scoreString)) for the scoreClass (\(String(describing: scoreClass))) doesn't follow the correct pattern (\(buildScorePattern(bendable: false, levelSuffixes))):"
+        return "The scoreString (\(scoreString)) for the scoreClass ("
+            + String(describing: scoreClass) + ") doesn't follow the correct pattern ("
+            + buildScorePattern(bendable: false, levelSuffixes) + "):"
     }
     
     public static func parseInitScore<S : Score>(
@@ -88,8 +93,9 @@ public final class ScoreUtil {
             _ initScoreString: String
     ) -> Int {
         return Int(initScoreString) ?? assertionFailure(
-            "The scoreString (\(scoreString)) for the scoreClass (\(String(describing: scoreClass))) has a initScoreString ("
-                    + initScoreString + ") which is not a valid integer."
+            "The scoreString (\(scoreString)) for the scoreClass ("
+                + String(describing: scoreClass) + ") has a initScoreString ("
+                + initScoreString + ") which is not a valid integer."
         )
     }
     
@@ -102,8 +108,24 @@ public final class ScoreUtil {
             return Int.min
         }
         return Int(levelString) ?? assertionFailure(
-            "The scoreString (\(scoreString)) for the scoreClass (\(String(describing: scoreClass))) has a levelString (" + levelString
-                    + ") which is not a valid integer."
+            "The scoreString (\(scoreString)) for the scoreClass ("
+                + String(describing: scoreClass) + ") has a levelString (" + levelString
+                + ") which is not a valid integer."
+        )
+    }
+    
+    public static func parseLevelAsLong<S : Score>(
+            _ scoreClass: S.Type,
+            _ scoreString: String,
+            _ levelString: String
+    ) -> Int64 {
+        if levelString == "*" {
+            return Int64.min
+        }
+        return Int64(levelString) ?? assertionFailure(
+            "The scoreString (" + scoreString + ") for the scoreClass ("
+                + String(describing: scoreClass) + ") has a levelString (" + levelString
+                + ") which is not a valid long/int64."
         )
     }
     
@@ -112,18 +134,8 @@ public final class ScoreUtil {
     }
     
     public static func buildScorePattern(bendable: Bool, _ levelSuffixes: [String]) -> String {
-        var result = ""
-        var first = true;
-        for levelSuffix in levelSuffixes {
-            if (first) {
-                first = false;
-            } else {
-                result.append("/")
-            }
-            result.append(bendable ? "[999/.../999]" : "999")
-            result.append(levelSuffix)
-        }
-        return result
+        return levelSuffixes.map({ (bendable ? "[999/.../999]" : "999") + $0 })
+                            .joined(separator: "/")
     }
     
     public static func getInitPrefix(_ initScore: Int) -> String {
@@ -144,18 +156,113 @@ public final class ScoreUtil {
             shortString.append(initScore)
             shortString.append(INIT_LABEL)
         }
-        for (i, levelNumber) in score.toLevelNumbers().enumerated() {
+        for (levelNumber, levelLabel) in zip(score.toLevelNumbers(), levelLabels) {
             if (notZero(levelNumber)) {
                 if (!shortString.isEmpty) {
                     shortString.append("/");
                 }
                 shortString.append(levelNumber)
-                shortString.append(levelLabels[i])
+                shortString.append(levelLabel)
             }
         }
         if (shortString.isEmpty) {
             // Even for BigDecimals we use "0" over "0.0" because different levels can have different scales
             return "0"
+        }
+        return shortString
+    }
+    
+    public static func parseBendableScoreTokens<I : IBendableScore>(
+            _ scoreClass: I.Type,
+            _ scoreString: String
+    ) -> [[String]] {
+        let SEPARATOR = "/"
+        var scoreTokens = [[String]](repeating: [String](), count: 3)
+        scoreTokens[0] = [""]
+        var startIndex = 0;
+        let initEndIndex = scoreString.index(of: INIT_LABEL)
+        if let initEndIndex = initEndIndex {
+            scoreTokens[0][0] = scoreString[to: initEndIndex]
+            startIndex = initEndIndex + INIT_LABEL.count + SEPARATOR.count;
+        } else {
+            scoreTokens[0][0] = "0";
+        }
+        for (i, levelSuffix) in LEVEL_SUFFIXES.enumerated() {
+            guard let endIndex = scoreString.index(of: levelSuffix, after: startIndex) else {
+                return assertionFailure(
+                    "The scoreString (" + scoreString
+                        + ") for the scoreClass (" + String(describing: scoreClass)
+                        + ") doesn't follow the correct pattern ("
+                        + buildScorePattern(bendable: true, LEVEL_SUFFIXES) + "):"
+                        + " the levelSuffix (" + levelSuffix
+                        + ") isn't in the scoreSubstring (" + scoreString[from: startIndex] + ")."
+                )
+            }
+            let scoreSubString = scoreString[startIndex, endIndex]
+            guard !scoreSubString.hasPrefix("[") && scoreSubString.hasSuffix("]") else {
+                return assertionFailure(
+                    "The scoreString (" + scoreString
+                        + ") for the scoreClass (" + String(describing: scoreClass)
+                        + ") doesn't follow the correct pattern ("
+                        + buildScorePattern(bendable: true, LEVEL_SUFFIXES) + "):"
+                        + " the scoreSubString (" + scoreSubString
+                        + ") does not start and end with \"[\" and \"]\"."
+                )
+            }            
+            scoreTokens[1 + i] = scoreSubString == "[]"
+                ? [String]()
+                : scoreSubString[1, skipLast: 1].split(at: SEPARATOR)
+            startIndex = endIndex + levelSuffix.count + SEPARATOR.count
+        }
+        guard startIndex == scoreString.count + SEPARATOR.count else {
+            return assertionFailure(
+                "The scoreString (" + scoreString
+                    + ") for the scoreClass (" + String(describing: scoreClass)
+                    + ") doesn't follow the correct pattern ("
+                    + buildScorePattern(bendable: true, LEVEL_SUFFIXES) + "):"
+                    + " the suffix (" + scoreString[from: startIndex - 1] + ") is unsupported."
+            )
+        }
+        return scoreTokens
+    }
+    
+    public static func  buildBendableShortString<I : IBendableScore>(
+            score: I,
+            notZero: (Number) -> Bool
+    ) -> String {
+        let initScore = score.initScore()
+        var shortString = ""
+        if (initScore != 0) {
+            shortString.append(initScore)
+            shortString.append(INIT_LABEL)
+        }
+        let levelNumbers = score.toLevelNumbers()
+        let hardLevelsSize = score.hardLevelsSize()
+        if levelNumbers[to: hardLevelsSize].contains(where: notZero) {
+            if (!shortString.isEmpty) {
+                shortString.append("/")
+            }
+            shortString.append("[")
+            shortString.append(levelNumbers[to: hardLevelsSize].joinedToString2(separator: "/"))
+            shortString.append("]")
+            shortString.append(HARD_LABEL)
+        }
+        let softLevelsSize = score.softLevelsSize()
+        let remainingLevelNumbers = levelNumbers[from: hardLevelsSize]
+        if remainingLevelNumbers.contains(where: notZero) {
+            if (!shortString.isEmpty) {
+                shortString.append("/")
+            }
+            shortString.append("[")
+            shortString.append(
+                remainingLevelNumbers[to: softLevelsSize].joinedToString2(separator: "/")
+            )
+            shortString.append("]")
+            shortString.append(SOFT_LABEL)
+        }
+        if shortString.isEmpty {
+            // Even for BigDecimals we use "0" over "0.0" because different levels can have different scales
+            return "0";
         }
         return shortString
     }
