@@ -61,7 +61,7 @@ public protocol IBendableScore : Score {
 // default implementations
 extension IBendableScore {
     
-    func levelsSize() -> Int {
+    public func levelsSize() -> Int {
         return hardLevelsSize() + softLevelsSize();
     }
     

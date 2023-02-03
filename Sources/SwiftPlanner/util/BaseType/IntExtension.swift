@@ -21,28 +21,10 @@
          limited to) translating the original file to Swift.
  */
 
-public protocol Number : CustomStringConvertible {
+extension Int {
     
-    func toInt() -> Int
-    
-    func toDouble() -> Double
-    
-    func toString() -> String
-    
-}
-
-extension Int : Number {
-    
-    public func toInt() -> Int {
-        return self
-    }
-    
-    public func toDouble() -> Double {
-        return Double(self)
-    }
-    
-    public func toString() -> String {
-        return String(self)
+    static func compare(_ lhs: Int, _ rhs: Int) -> Int {
+        return lhs - rhs
     }
     
 }
