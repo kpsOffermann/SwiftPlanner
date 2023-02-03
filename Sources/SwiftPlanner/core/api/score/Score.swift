@@ -138,7 +138,7 @@ public protocol Score : Hashable, Comparable, CustomStringConvertible {
      *
      * @return never null
      */
-    func zero() -> Score_
+    func zero() -> Self
 
     /**
      *
@@ -196,7 +196,7 @@ public protocol Score : Hashable, Comparable, CustomStringConvertible {
      *
      * @return never null
      */
-    func toShortString() -> Bool
+    func toShortString() -> String
 
 }
 
@@ -204,7 +204,7 @@ public protocol Score : Hashable, Comparable, CustomStringConvertible {
 extension Score {
     
     public func negate() -> Score_ {
-        let zero = zero()
+        let zero = self.zero()
         let current = self
         if (zero == current) {
             return current
@@ -213,7 +213,7 @@ extension Score {
     }
     
     public func isZero() -> Bool {
-        return self == zero()
+        return self == self.zero()
     }
     
     public func toLevelDoubles() -> [Double] {

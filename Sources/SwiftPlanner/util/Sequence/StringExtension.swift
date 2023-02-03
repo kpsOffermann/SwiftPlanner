@@ -35,4 +35,8 @@ extension String {
         return split(separator: separator).map({ String($0) })
     }
     
+    static func +(lhs: String, rhs: CustomStringConvertible) -> String {
+        return lhs + "\(rhs)"
+    }
+    
 }
