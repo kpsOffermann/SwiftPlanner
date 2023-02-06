@@ -61,7 +61,7 @@ public final class HardSoftScore : Score {
         let softScore = ScoreUtil.parseLevelAsInt(
             HardSoftScore.self,
             scoreString,
-            scoreTokens[3]
+            scoreTokens[2]
         )
         return ofUninitialized(init: initScore, hard: hardScore, soft: softScore)
     }
