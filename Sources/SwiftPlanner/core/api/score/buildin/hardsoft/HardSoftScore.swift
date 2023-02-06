@@ -41,7 +41,7 @@ public final class HardSoftScore : Score {
     public static let ONE_HARD = HardSoftScore(init: 0, hard: 1, soft: 0)
     public static let ONE_SOFT = HardSoftScore(init: 0, hard: 0, soft: 1)
 
-    public static func parseScore(scoreString: String) -> HardSoftScore {
+    public static func parseScore(_ scoreString: String) -> HardSoftScore {
         let scoreTokens: [String] = ScoreUtil.parseScoreTokens(
             HardSoftScore.self,
             scoreString,
