@@ -52,17 +52,17 @@ public enum ScoreUtil {
                 
             scoreTokens[0] = suffixedScoreToken[0, suffixedScoreToken.count - INIT_LABEL.count]
             startIndex = 1;
+        } else {
+            assert(
+                suffixedScoreTokens.count == levelSuffixes.count,
+                parseScoreTokensErrorMessageBase(scoreClass, scoreString, levelSuffixes)
+                    + " the suffixedScoreTokens length (" + suffixedScoreTokens.count
+                    + ") differs from the levelSuffixes length (" + levelSuffixes.count
+                    + " or \(levelSuffixes.count + 1))."
+            )
+            scoreTokens[0] = "0";
+            startIndex = 0;
         }
-        
-        assert(
-            suffixedScoreTokens.count == levelSuffixes.count,
-            parseScoreTokensErrorMessageBase(scoreClass, scoreString, levelSuffixes)
-                + " the suffixedScoreTokens length (" + suffixedScoreTokens.count
-                + ") differs from the levelSuffixes length (" + levelSuffixes.count
-                + " or \(levelSuffixes.count + 1))."
-        )
-        scoreTokens[0] = "0";
-        startIndex = 0;
 
         for (i, levelSuffix) in levelSuffixes.enumerated() {
             let suffixedScoreToken: String = suffixedScoreTokens[startIndex + i]
