@@ -15,6 +15,8 @@
  limitations under the License.
  */
 
+import Foundation
+
 extension Array {
     
     // Make sure that the elements have a proper string representation.
@@ -40,6 +42,26 @@ extension Array {
             return true
         }
         return false
+    }
+    
+    /**
+     Sorts the array using the given comparator.
+     
+     - Parameter comparator: comparator to specify how to sort.
+     */
+    mutating func sort(_ comparator: SPComparator<Element>) {
+        self.sort(by: { comparator($0, $1) != .orderedDescending })
+    }
+    
+    /**
+     Returns a new array with all elments sorted using the given comparator.
+     
+     - Parameter comparator: comparator to specify how to sort.
+     
+     - Returns: new array sorted with the given comparator.
+     */
+    func sorted(_ comparator: SPComparator<Element>) -> Self {
+        return sorted(by: { comparator($0, $1) != .orderedDescending })
     }
     
 }

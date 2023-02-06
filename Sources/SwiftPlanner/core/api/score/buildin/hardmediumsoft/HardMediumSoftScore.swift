@@ -43,7 +43,7 @@ public final class HardMediumSoftScore : Score {
     public static let ONE_MEDIUM = HardMediumSoftScore(init: 0, hard: 0, medium: 1, soft: 0)
     public static let ONE_SOFT = HardMediumSoftScore(init: 0, hard: 0, medium: 0, soft: 1)
 
-    public static func parseScore(scoreString: String) -> HardMediumSoftScore {
+    public static func parseScore(_ scoreString: String) -> HardMediumSoftScore {
         let scoreTokens: [String] = ScoreUtil.parseScoreTokens(
             HardMediumSoftScore.self,
             scoreString,
@@ -87,20 +87,24 @@ public final class HardMediumSoftScore : Score {
         )
     }
 
-    public static func of(hardScore: Int, mediumScore: Int, softScore: Int) -> HardMediumSoftScore {
+    public static func of(
+            hard hardScore: Int,
+            medium mediumScore: Int,
+            soft softScore: Int
+    ) -> HardMediumSoftScore {
         return HardMediumSoftScore(init: 0, hard: hardScore, medium: mediumScore, soft: softScore)
     }
 
     public static func ofHard(_ hardScore: Int) -> HardMediumSoftScore{
-        return of(hardScore: hardScore, mediumScore: 0, softScore: 0)
+        return of(hard: hardScore, medium: 0, soft: 0)
     }
 
     public static func ofMedium(_ mediumScore: Int) -> HardMediumSoftScore {
-        return of(hardScore: 0, mediumScore: mediumScore, softScore: 0)
+        return of(hard: 0, medium: mediumScore, soft: 0)
     }
 
     public static func ofSoft(_ softScore: Int) -> HardMediumSoftScore {
-        return of(hardScore: 0, mediumScore: 0, softScore: softScore)
+        return of(hard: 0, medium: 0, soft: softScore)
     }
 
     // ************************************************************************
@@ -276,13 +280,13 @@ public final class HardMediumSoftScore : Score {
     
     public func compareTo(_ other: HardMediumSoftScore) -> Int {
         if (_initScore != other.initScore()) {
-            return _initScore - other.initScore()
+            return Int.compare(_initScore, other.initScore())
         } else if (_hardScore != other.hardScore()) {
-            return _hardScore - other.hardScore()
+            return Int.compare(_hardScore, other.hardScore())
         } else if (_mediumScore != other.mediumScore()) {
-            return _mediumScore - other.mediumScore()
+            return Int.compare(_mediumScore, other.mediumScore())
         } else {
-            return _softScore - other.softScore()
+            return Int.compare(_softScore,other.softScore())
         }
     }
 

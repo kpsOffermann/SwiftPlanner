@@ -15,7 +15,17 @@
  limitations under the License.
  */
 
-func assertionFailure<A>(_ message: String) -> A {
-    assertionFailure(message)
-    fatalError()
+import Foundation
+
+public extension Comparable {
+    
+    static var defaultComparator: SPComparator<Self> {
+        return { lhs, rhs in
+            if lhs == rhs {
+                return .orderedSame
+            }
+            return lhs < rhs ? .orderedAscending : .orderedDescending
+        }
+    }
+    
 }

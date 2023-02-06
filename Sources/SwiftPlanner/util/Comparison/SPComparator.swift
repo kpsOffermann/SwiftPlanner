@@ -15,7 +15,6 @@
  limitations under the License.
  */
 
-func assertionFailure<A>(_ message: String) -> A {
-    assertionFailure(message)
-    fatalError()
-}
+import Foundation
+
+public typealias SPComparator<T> = (T, T) -> ComparisonResult
