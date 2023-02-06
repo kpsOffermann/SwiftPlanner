@@ -74,16 +74,16 @@ public final class HardSoftScore : Score {
         return HardSoftScore(init: initScore, hard: hardScore, soft: softScore)
     }
 
-    public static func of(hardScore: Int, softScore: Int) -> HardSoftScore {
+    public static func of(hard hardScore: Int, soft softScore: Int) -> HardSoftScore {
         return HardSoftScore(init: 0, hard: hardScore, soft: softScore)
     }
 
     public static func ofHard(_ hardScore: Int) -> HardSoftScore{
-        return of(hardScore: hardScore, softScore: 0)
+        return of(hard: hardScore, soft: 0)
     }
 
     public static func ofSoft(_ softScore: Int) -> HardSoftScore {
-        return of(hardScore: 0, softScore: softScore)
+        return of(hard: 0, soft: softScore)
     }
 
     // ************************************************************************
