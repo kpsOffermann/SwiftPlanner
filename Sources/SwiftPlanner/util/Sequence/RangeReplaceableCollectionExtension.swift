@@ -44,6 +44,19 @@ extension RangeReplaceableCollection {
     }
     
     /**
+     Returns a subcollection of length `subCount` of the original collection, beginning with the
+     first given index.
+     
+     - Parameter from: first index that will be in the new collection.
+     - Parameter count: number of elements that will be in the subcollection.
+     
+     - Returns: a collection with the given number of elements beginning at index `from`.
+     */
+    public subscript(from from: Int, count subCount: Int) -> Self {
+        self[from, from + subCount]
+    }
+    
+    /**
      Returns a subcollection of the original collection, beginning with the first given index and
      removing the given number of elements from the end.
      
@@ -53,7 +66,7 @@ extension RangeReplaceableCollection {
      - Returns: a collection with the given numbers of elements removed from the beginning and the
                 end.
      */
-    public subscript(from: Int, skipLast skipLast: Int) -> Self {
+    public subscript(from from: Int, skipLast skipLast: Int) -> Self {
         self[from, count - skipLast]
     }
     

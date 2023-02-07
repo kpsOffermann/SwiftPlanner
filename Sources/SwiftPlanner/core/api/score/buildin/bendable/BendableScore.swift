@@ -187,7 +187,7 @@ public final class BendableScore : IBendableScore {
      *        The {@code scoreLevel} is {@code hardLevel} for hard levels and {@code softLevel + hardLevelSize} for soft levels.
      * @return higher is better
      */
-    public func hardScore(hardLevel: Int) -> Int {
+    public func hardScore(level hardLevel: Int) -> Int {
         return _hardScores[hardLevel]
     }
 
@@ -200,7 +200,7 @@ public final class BendableScore : IBendableScore {
      *        The {@code scoreLevel} is {@code hardLevel} for hard levels and {@code softLevel + hardLevelSize} for soft levels.
      * @return higher is better
      */
-    public func softScore(softLevel: Int) -> Int {
+    public func softScore(level softLevel: Int) -> Int {
         return _softScores[softLevel]
     }
 

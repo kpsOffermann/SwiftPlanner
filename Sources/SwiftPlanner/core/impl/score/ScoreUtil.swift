@@ -211,7 +211,7 @@ public enum ScoreUtil {
             }            
             scoreTokens[1 + i] = scoreSubString == "[]"
                 ? [String]()
-                : scoreSubString[1, skipLast: 1].split(at: SEPARATOR)
+                : scoreSubString[from: 1, skipLast: 1].split(at: SEPARATOR)
             startIndex = endIndex + levelSuffix.count + SEPARATOR.count
         }
         guard startIndex == scoreString.count + SEPARATOR.count else {
