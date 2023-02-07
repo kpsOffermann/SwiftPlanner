@@ -24,6 +24,8 @@
          limited to) translating the original file to Swift.
  */
 
+public typealias IBendableScore = UBendableScore & Score
+
 /**
  * Bendable score is a {@link Score} whose {@link #hardLevelsSize()} and {@link #softLevelsSize()}
  * are only known at runtime.
@@ -35,7 +37,7 @@
  * @implSpec As defined by {@link Score}.
  * @param <Score_> the actual score type to allow addition, subtraction and other arithmetic
  */
-public protocol IBendableScore : Score {
+public protocol UBendableScore {
 
     /**
      * The sum of this and {@link #softLevelsSize()} equals {@link #levelsSize()}.
@@ -59,7 +61,7 @@ public protocol IBendableScore : Score {
 }
 
 // default implementations
-extension IBendableScore {
+extension UBendableScore {
     
     public func levelsSize() -> Int {
         return hardLevelsSize() + softLevelsSize();
