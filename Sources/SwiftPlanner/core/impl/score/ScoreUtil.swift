@@ -179,11 +179,10 @@ public enum ScoreUtil {
         let SEPARATOR = "/"
         var scoreTokens = [[String]](repeating: [String](), count: 3)
         scoreTokens[0] = [""]
-        var startIndex = 0;
-        let initEndIndex = scoreString.index(of: INIT_LABEL)
-        if let initEndIndex = initEndIndex {
+        var startIndex = 0
+        if let initEndIndex = scoreString.index(of: INIT_LABEL) {
             scoreTokens[0][0] = scoreString[to: initEndIndex]
-            startIndex = initEndIndex + INIT_LABEL.count + SEPARATOR.count;
+            startIndex = initEndIndex + INIT_LABEL.count + SEPARATOR.count
         } else {
             scoreTokens[0][0] = "0";
         }
@@ -199,7 +198,7 @@ public enum ScoreUtil {
                 )
             }
             let scoreSubString = scoreString[startIndex, endIndex]
-            guard !scoreSubString.hasPrefix("[") && scoreSubString.hasSuffix("]") else {
+            guard scoreSubString.hasPrefix("[") && scoreSubString.hasSuffix("]") else {
                 return assertionFailure(
                     "The scoreString (" + scoreString
                         + ") for the scoreClass (" + String(describing: scoreClass)

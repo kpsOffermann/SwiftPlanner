@@ -15,7 +15,7 @@
  limitations under the License.
  */
 
-func assertionFailure<A>(_ message: String) -> A {
-    assertionFailure(message)
+func assertionFailure<A>(_ message: String, file: StaticString = #file, line: UInt = #line) -> A {
+    assertionFailure(message, file: file, line: line)
     fatalError()
 }

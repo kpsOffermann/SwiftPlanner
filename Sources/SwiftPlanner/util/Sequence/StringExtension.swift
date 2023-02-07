@@ -52,7 +52,7 @@ extension String {
             }
             remainingString = remainingString[from: start + 1]
             if remainingString.hasPrefix(tail) {
-                return start
+                return count - remainingString.count - 1
             }
         }
         return nil
