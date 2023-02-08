@@ -33,7 +33,7 @@ import Foundation
  *
  * @see Score
  */
-public final class SimpleScore : Score, JavaComparable, JavaStringConvertible {
+public final class SimpleScore : Score, SPComparable, JavaStringConvertible {
 
     public static let ZERO = SimpleScore(initScore: 0, score: 0)
     public static let ONE = SimpleScore(initScore: 0, score: 1)
@@ -148,12 +148,8 @@ public final class SimpleScore : Score, JavaComparable, JavaStringConvertible {
         hasher.combine(_score)
     }
 
-    public func compareTo(_ other: SimpleScore) -> Int {
-        if (_initScore != other._initScore) {
-            return Int.compare(_initScore, other._initScore);
-        } else {
-            return Int.compare(_score, other._score);
-        }
+    public func compare(to other: SimpleScore) -> ComparisonResult {
+        return chainCompare(self, other, by: ©\._initScore, ©\._score)
     }
 
     public func toShortString() -> String {

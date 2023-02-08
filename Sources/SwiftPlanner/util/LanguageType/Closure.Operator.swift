@@ -48,19 +48,30 @@ postfix func .?<A, B>(closure: @escaping (A) -> B) -> (A?) -> B? {
 }
 
 /**
-  Expands a one-parameter function/closure into an optional chaining function, ie it accepts `nil`
-  as parameter, and passes it on.
+ Expands a one-parameter function/closure into an optional chaining function, ie it accepts `nil`
+ as parameter, and passes it on.
    
-  Example (with `let time: JustTime? = ...`):
-  `Minute.from.?(time)` will return
-  - `nil`, if `time` is `nil`
-  - `Minute.from(time)`, otherwise
+ Example (with `let time: JustTime? = ...`):
+ `Minute.from.?(time)` will return
+ - `nil`, if `time` is `nil`
+ - `Minute.from(time)`, otherwise
 
-  - Parameter closure: the function/closure that gets expanded.
-  - Parameter value: the parameter for the closure.
+ - Parameter closure: the function/closure that gets expanded.
+ - Parameter value: the parameter for the closure.
    
-  - Returns: `nil`, if `value` is `nil`, otherwise the result of passing `value` to the closure.
-  */
- func .?<A, B>(closure: @escaping (A) -> B, value: A?) -> B? {
-     return value ??! closure ..! nil
- }
+ - Returns: `nil`, if `value` is `nil`, otherwise the result of passing `value` to the closure.
+ */
+func .?<A, B>(closure: @escaping (A) -> B, value: A?) -> B? {
+    return value ??! closure ..! nil
+}
+
+/**
+ Returns a comparator using the given map to obtain the comparable values.
+ 
+ - Parameter map: the map whose values get used for comparison.
+ 
+ - Returns: a comparator using the given map.
+ */
+prefix func ©<K, V : SPComparable> (map: @escaping (K) -> V) -> SPComparator<K> {
+    return Comparators.by(map)
+}

@@ -15,6 +15,8 @@
  limitations under the License.
  */
 
+extension String : SPComparable {}
+
 extension String {
     
     mutating func append(_ int: Int) {

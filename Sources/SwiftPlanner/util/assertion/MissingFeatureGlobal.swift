@@ -15,4 +15,18 @@
  limitations under the License.
  */
 
-extension Int : SPComparable {}
+/**
+ Informs the programmer that she/he has to add additional source code for this to run.
+ 
+ - Parameter errorMessage: message to describe what source code is missing.
+ 
+ - Returns: nothing. The method will always cause fatal error before reaching the return statement.
+ */
+func missingFeature<T>(_ errorMessage: String = "Not yet implemented") -> T {
+    fatalError(errorMessage)
+}
+
+// Documentation: see above.
+func missingFeature(_ errorMessage: String = "Not yet implemented") {
+    let _: Any = missingFeature(errorMessage)
+}

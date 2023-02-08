@@ -47,8 +47,12 @@ public enum PlannerAssert {
             }
         }
     }
-
+    
     public static func assertObjectsAreEqual<H : Hashable>(_ objects: H...) {
+        assertObjectsAreEqualWithoutComparing(objects)
+    }
+
+    public static func assertObjectsAreEqualWithoutComparing<H : Hashable>(_ objects: [H]) {
         for i in 0 ..< objects.count {
             for j in (i + 1) ..< objects.count {
                 XCTAssertEqual(objects[j], objects[i])
@@ -67,6 +71,10 @@ public enum PlannerAssert {
     }
     
     public static func assertObjectsAreNotEqual<E : Equatable>(_ objects: E...) {
+        assertObjectsAreNotEqualWithoutComparing(objects)
+    }
+    
+    public static func assertObjectsAreNotEqualWithoutComparing<E : Equatable>(_ objects: [E]) {
         for i in 0 ..< objects.count {
             for j in (i + 1) ..< objects.count {
                 XCTAssertNotEqual(objects[j], objects[i])
@@ -74,8 +82,8 @@ public enum PlannerAssert {
         }
     }
     
-    public static func assertCompareToOrder<C : Comparable>(_ objects: C...) {
-        assertCompareToOrder(by: C.defaultComparator, objects)
+    public static func assertCompareToOrder<C : SPComparable>(_ objects: C...) {
+        assertCompareToOrder(by: C.compare, objects)
     }
 
     public static func assertCompareToOrder<T>(by comparator: SPComparator<T>, _ objects: T...) {

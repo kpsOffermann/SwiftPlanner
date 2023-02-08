@@ -17,15 +17,13 @@
 
 import Foundation
 
-public extension Comparable {
+extension Comparable where Self : SPComparable {
     
-    static var defaultComparator: SPComparator<Self> {
-        return { lhs, rhs in
-            if lhs == rhs {
-                return .orderedSame
-            }
-            return lhs < rhs ? .orderedAscending : .orderedDescending
+    public func compare(to other: Self) -> ComparisonResult {
+        if self == other {
+            return .orderedSame
         }
+        return self < other ? .orderedAscending : .orderedDescending
     }
     
 }

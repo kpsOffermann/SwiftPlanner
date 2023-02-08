@@ -36,7 +36,7 @@ import Foundation
  *
  * @see Score
  */
-public final class HardMediumSoftScore : Score {    
+public final class HardMediumSoftScore : Score, SPComparable {
 
     public static let ZERO = HardMediumSoftScore(init: 0, hard: 0, medium: 0, soft: 0)
     public static let ONE_HARD = HardMediumSoftScore(init: 0, hard: 1, medium: 0, soft: 0)
@@ -273,21 +273,12 @@ public final class HardMediumSoftScore : Score {
         hasher.combine(_mediumScore)
         hasher.combine(_softScore)
     }
-
-    public static func <(lhs: HardMediumSoftScore, rhs: HardMediumSoftScore) -> Bool {
-        return lhs.compareTo(rhs) < 0
-    }
     
-    public func compareTo(_ other: HardMediumSoftScore) -> Int {
-        if (_initScore != other.initScore()) {
-            return Int.compare(_initScore, other.initScore())
-        } else if (_hardScore != other.hardScore()) {
-            return Int.compare(_hardScore, other.hardScore())
-        } else if (_mediumScore != other.mediumScore()) {
-            return Int.compare(_mediumScore, other.mediumScore())
-        } else {
-            return Int.compare(_softScore,other.softScore())
-        }
+    public func compare(to other: HardMediumSoftScore) -> ComparisonResult {
+        return chainCompare(
+            self, other,
+            by: ©\._initScore, ©\._hardScore, ©\._mediumScore, ©\._softScore
+        )
     }
 
     public func toShortString() -> String {

@@ -75,12 +75,12 @@ func XCTAssertEqualIgnoringOrder<E : Equatable>(
 }
 
 // Sorted ascending
-func XCTAssertIsSorted<C : Comparable>(
+func XCTAssertIsSorted<C : SPComparable>(
         _ array: [C],
         file: StaticString = #file,
         line: UInt = #line
 ) {
-    XCTAssertIsSorted(array, by: C.defaultComparator, file: file, line: line)
+    XCTAssertIsSorted(array, by: C.compare, file: file, line: line)
 }
 
 // Sorted ascending

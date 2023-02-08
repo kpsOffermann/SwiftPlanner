@@ -15,4 +15,18 @@
  limitations under the License.
  */
 
-extension Int : SPComparable {}
+extension KeyPath where Value : SPComparable {
+    
+    /**
+     Returns a comparator using the given property to obtain the comparable values.
+     
+     - Parameter property: the property whose values get used for comparison.
+     
+     - Returns: a comparator using the given property.
+     */
+    static prefix func © (property: KeyPath) -> SPComparator<Root> {
+        // swiftlint:disable:previous identifier_name
+        return Comparators.by({ $0[keyPath: property] })
+    }
+    
+}

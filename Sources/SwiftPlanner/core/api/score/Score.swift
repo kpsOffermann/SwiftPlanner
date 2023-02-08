@@ -40,7 +40,7 @@
  * @param <Score_> the actual score type to allow addition, subtraction and other arithmetic
  * @see HardSoftScore
  */
-public protocol Score : Hashable, Comparable, CustomStringConvertible {
+public protocol Score : Hashable, SPComparable, CustomStringConvertible {
             
     typealias Score_ = Self
     

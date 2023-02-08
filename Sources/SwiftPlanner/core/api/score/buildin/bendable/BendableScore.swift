@@ -37,7 +37,7 @@ import Foundation
  *
  * @see Score
  */
-public final class BendableScore : IBendableScore {    
+public final class BendableScore : IBendableScore, SPComparable {
 
     /**
      * @param scoreString never null
@@ -306,27 +306,16 @@ public final class BendableScore : IBendableScore {
         hasher.combine(_hardScores)
         hasher.combine(_softScores)
     }
-    
-    public static func < (lhs: BendableScore, rhs: BendableScore) -> Bool {
-        return lhs.compareTo(rhs) < 0
-    }
 
-    public func compareTo(_ other: BendableScore) -> Int {
+    public func compare(to other: BendableScore) -> ComparisonResult {
         validateCompatible(other)
-        if _initScore != other._initScore {
-            return Int.compare(_initScore, other._initScore)
-        }
-        for (selfHard, otherHard) in zip(_hardScores, other._hardScores) {
-            if (selfHard != otherHard) {
-                return Int.compare(selfHard, otherHard)
-            }
-        }
-        for (selfSoft, otherSoft) in zip(_softScores, other._softScores) {
-            if (selfSoft != otherSoft) {
-                return Int.compare(selfSoft, otherSoft)
-            }
-        }
-        return 0
+        return chainCompare(
+            self,
+            other,
+            by: ©\._initScore,
+            Comparators.elementwiseBy(\._hardScores),
+            Comparators.elementwiseBy(\._softScores)
+        )
     }
 
     public func toShortString() -> String {
