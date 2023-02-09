@@ -37,18 +37,6 @@ import Foundation
  * @param <Score_> the actual score type
  */
 public final class ConstraintMatch<Score_ : Score> : SPComparable, JavaStringConvertible, Hashable {
-    
-    /**
-     * @param constraintPackage never null
-     * @param constraintName never null
-     * @return never null
-     */
-    static func composeConstraintId(
-            package constraintPackage: String,
-            name constraintName: String
-    ) -> String{
-        return constraintPackage + "/" + constraintName
-    }
 
     private let constraintPackage: String
     private let constraintName: String
@@ -73,7 +61,7 @@ public final class ConstraintMatch<Score_ : Score> : SPComparable, JavaStringCon
     ) {
         self.constraintPackage = constraintPackage
         self.constraintName = constraintName
-        self.constraintId = ConstraintMatch.composeConstraintId(
+        self.constraintId = ConstraintMatchUtil.composeConstraintId(
             package: constraintPackage,
             name: constraintName
         )
@@ -139,7 +127,10 @@ public final class ConstraintMatch<Score_ : Score> : SPComparable, JavaStringCon
     // ************************************************************************
 
     public func getConstraintId() -> String {
-        return ConstraintMatch.composeConstraintId(package: constraintPackage, name: constraintName)
+        return ConstraintMatchUtil.composeConstraintId(
+            package: constraintPackage,
+            name: constraintName
+        )
     }
 
     public func getIdentificationString() -> String {
@@ -156,7 +147,11 @@ public final class ConstraintMatch<Score_ : Score> : SPComparable, JavaStringCon
         }
     }
     
-    public func compare(to other: ConstraintMatch<Score_>) -> ComparisonResult {
+    public static func ==(lhs: ConstraintMatch, rhs: ConstraintMatch) -> Bool {
+        return lhs === rhs // no constraint match should equal any other.
+    }
+    
+    public func compare(to other: ConstraintMatch) -> ComparisonResult {
         chainCompare(
             self,
             other,

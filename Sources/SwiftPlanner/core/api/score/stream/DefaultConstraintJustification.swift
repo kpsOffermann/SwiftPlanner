@@ -28,13 +28,13 @@
 
 import Foundation
 
-public typealias Object = CustomStringConvertible
-
 /**
  * Default implementation of {@link ConstraintJustification}, returned by {@link ConstraintMatch#getJustification()}
  * unless the user defined a custom justification mapping.
  */
 public final class DefaultConstraintJustification : ConstraintJustification, SPComparable, JavaStringConvertible {
+    
+    public typealias Object = CustomStringConvertible
     
     public static func of(impact: some Score, facts: Object...) -> DefaultConstraintJustification {
         return DefaultConstraintJustification(impact: impact, facts: facts)
@@ -63,6 +63,12 @@ public final class DefaultConstraintJustification : ConstraintJustification, SPC
 
     public func toString() -> String {
         return facts.description
+    }
+    
+    public static func ==(lhs: DefaultConstraintJustification, rhs: DefaultConstraintJustification) -> Bool {
+        return Equals.check(lhs.impact, rhs.impact, orElse: { false })
+            && lhs.facts.count == rhs.facts.count
+            && zip(lhs.facts, rhs.facts).allSatisfy({ Equals.check($0, $1, orElse: { false }) })
     }
     
     public func compare(to other: DefaultConstraintJustification) -> ComparisonResult {
@@ -109,7 +115,11 @@ public final class DefaultConstraintJustification : ConstraintJustification, SPC
             ?? other.classAndIdPlanningComparator
             ?? { lhs, rhs in
                 Comparators.by({ $0 }, orElse: {
-                    return missingFeature()
+                    return missingFeature(
+                        "Automatic comparator recognition for types "
+                            + String(describing: type(of: lhs)) + " and "
+                            + String(describing: type(of: rhs)) + " not yet implemented!"
+                    )
                 })(lhs, rhs)
             }
         /*

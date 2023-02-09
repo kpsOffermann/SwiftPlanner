@@ -30,7 +30,7 @@
  *
  * @param <Score_> the actual score type
  */
-public protocol ConstraintMatchTotal {
+public protocol ConstraintMatchTotal<Score_> {
     
     associatedtype Score_ : Score
 
@@ -51,7 +51,7 @@ public protocol ConstraintMatchTotal {
      *
      * @return null if {@link ConstraintWeight} isn't used for this constraint
      */
-    func getConstraintWeight() -> Score_
+    func getConstraintWeight() -> Score_?
 
     /**
      * @return never null
@@ -81,7 +81,7 @@ public protocol ConstraintMatchTotal {
 
 extension ConstraintMatchTotal {
     
-    func getConstraintMatchCount() -> Int {
+    public func getConstraintMatchCount() -> Int {
         return getConstraintMatchSet().count
     }
     

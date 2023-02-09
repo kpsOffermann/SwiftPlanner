@@ -17,7 +17,7 @@
 
 import Foundation
 
-public protocol SPComparable : Comparable, Equatable {
+public protocol SPComparable : Comparable {
     
     func compare(to other: Self) -> ComparisonResult
     
@@ -42,10 +42,6 @@ extension SPComparable {
     
     public static func < (lhs: Self, rhs: Self) -> Bool {
         return lhs.compare(to: rhs) == .orderedAscending
-    }
-    
-    public static func == (lhs: Self, rhs: Self) -> Bool {
-        return lhs.compare(to: rhs) == .orderedSame
     }
     
     func compareTo(_ other: Self) -> Int {
