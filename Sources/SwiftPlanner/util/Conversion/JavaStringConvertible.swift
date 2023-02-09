@@ -19,7 +19,7 @@
  Helper protocol to automatically conform a type to CustomStringConvertible if it implements
  Java-style toString method.
  */
-protocol JavaStringConvertible : CustomStringConvertible {
+public protocol JavaStringConvertible : CustomStringConvertible {
     
     func toString() -> String
     
