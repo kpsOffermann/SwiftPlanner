@@ -13,12 +13,6 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
-
- NOTICE: This file is based on the optaPlanner engine by kiegroup 
-         (https://github.com/kiegroup/optaplanner), which is licensed 
-         under the Apache License, Version 2.0, too. Furthermore, this
-         file has been modified including (but not necessarily
-         limited to) translating the original file to Swift.
  */
 
 import XCTest

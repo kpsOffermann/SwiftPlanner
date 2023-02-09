@@ -33,7 +33,7 @@ class InitializingScoreTrendTest : XCTestCase {
         XCTAssertEqualIgnoringOrder(
             InitializingScoreTrend.parseTrend("ONLY_DOWN/ANY/ONLY_UP", levelsSize: 3)
                                   .getTrendLevels(),
-            .ONLY_DOWN, .ANY, .ONLY_UP
+            expected: .ONLY_DOWN, .ANY, .ONLY_UP
         )
     }
 

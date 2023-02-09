@@ -46,7 +46,7 @@ class HardSoftScoreDefinitionTest : XCTestCase {
     func test_getLevelLabels() {
         XCTAssertEqualIgnoringOrder(
             HardSoftScoreDefinition().getLevelLabels(),
-            "hard score", "soft score"
+            expected: "hard score", "soft score"
         )
     }
 

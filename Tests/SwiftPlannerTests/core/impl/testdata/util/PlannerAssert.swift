@@ -85,10 +85,6 @@ public enum PlannerAssert {
     public static func assertCompareToOrder<C : SPComparable>(_ objects: C...) {
         assertCompareToOrder(by: C.compare, objects)
     }
-
-    public static func assertCompareToOrder<T>(by comparator: SPComparator<T>, _ objects: T...) {
-        assertCompareToOrder(by: comparator, objects)
-    }
     
     public static func assertCompareToOrder<T>(by comparator: SPComparator<T>, _ objects: [T]) {
         XCTAssertIsSorted(objects, by: comparator)

@@ -67,7 +67,7 @@ func XCTAssertEqualIgnoringOrder<E : Equatable>(
 // Documentation: see above.
 func XCTAssertEqualIgnoringOrder<E : Equatable>(
         _ actual: [E],
-        _ expected: E...,
+        expected: E...,
         file: StaticString = #file,
         line: UInt = #line
 ) {
