@@ -17,6 +17,8 @@
 
 import Foundation
 
+extension Array : CollectionWithRemoveAtIndex {}
+
 extension Array {
     
     // Make sure that the elements have a proper string representation.
@@ -25,23 +27,6 @@ extension Array {
     // conformance).
     func joinedToString2(separator: String = "") -> String {
         return map({"\($0)"}).joined(separator: separator)
-    }
-    
-    /**
-     Removes the first element from the array that satisfies the given predicate.
-     
-     - Remark: If there are more than one element satisfying the predicate, only one is removed.
-     
-     - Parameter removePredicate: the predicate to determine the element that is removed.
-     
-     - Returns: `true`, if an element was deleted, otherwise `false`.
-     */
-    public mutating func removeFirst(where removePredicate: (Element) -> Bool) -> Bool {
-        for (index, element) in self.enumerated() where removePredicate(element) {
-            remove(at: index)
-            return true
-        }
-        return false
     }
     
     /**
@@ -70,23 +55,6 @@ extension Array where Element : CustomStringConvertible {
     
     func joinedToString(separator: String = "") -> String {
         return map({"\($0)"}).joined(separator: separator)
-    }
-    
-}
-
-extension Array where Element : Equatable {
-    
-    /**
-     Removes the given object from the array.
-     
-     - Remark: If there are more than one element equal to the given object, only one is removed.
-     
-     - Parameter toBeRemoved: the object whose equal is to be removed.
-     
-     - Returns: `true`, if an element was deleted, otherwise `false`.
-     */
-    public mutating func removeFirstEqual(_ toBeRemoved: Element) -> Bool {
-        return removeFirst(where: { $0 == toBeRemoved })
     }
     
 }
