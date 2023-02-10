@@ -18,6 +18,13 @@
 // Helper for Java-style equality checks. Usage of Equatable is preferable.
 enum Equals {
     
+    static func checkArray<T>(_ lhs: [T], _ rhs: [T], orElse fallback: (Any, Any) -> Bool) -> Bool {
+        return lhs.count == rhs.count
+            && zip(lhs, rhs).allSatisfy({ lElement, rElement in
+                check(lElement, rElement, orElse: { fallback(lElement, rElement) })
+            })
+    }
+    
     static func check(_ lhs: AnyObject, _ rhs: AnyObject) -> Bool {
         if let equatableLhs = lhs as? any Equatable {
             return equatableLhs.isEqual(to: rhs)
