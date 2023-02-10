@@ -30,7 +30,7 @@
  *
  * @param <Solution_> the solution type, the class with the {@link PlanningSolution} annotation
  */
-public protocol ScoreDirector {
+public protocol ScoreDirector<Solution_> {
 
     associatedtype Solution_
     
