@@ -31,13 +31,11 @@
  * @param <Solution_> the solution type, the class with the {@link PlanningSolution} annotation
  * @param <Score_> the actual score type
  */
-@available(macOS 13.0.0, *)
 public protocol ScoreExplanation<Solution_, Score_> {
     
     associatedtype Solution_
     
     associatedtype Score_ : Score
-        
 
     /**
      * Retrieve the {@link PlanningSolution} that the score being explained comes from.
@@ -79,6 +77,7 @@ public protocol ScoreExplanation<Solution_, Score_> {
      *         (to create one, use {@link ConstraintMatchTotal#composeConstraintId(String, String)}).
      * @see #getIndictmentMap()
      */
+    @available(macOS 13.0.0, *)
     func getConstraintMatchTotalMap() -> [String:any ConstraintMatchTotal<Score_>]
 
     /**
@@ -133,12 +132,12 @@ public protocol ScoreExplanation<Solution_, Score_> {
      *         {@link PlanningEntity planning entity}
      * @see #getConstraintMatchTotalMap()
      */
+    @available(macOS 13.0.0, *)
     func getIndictmentMap() -> [AnyHashable:any Indictment<Score_>]
 
 }
 
 // default implementations
-@available(macOS 13.0.0, *)
 extension ScoreExplanation {
     
     func getJustificationList<ConstraintJustification_ : ConstraintJustification>(
