@@ -79,6 +79,12 @@ enum Comparators {
         return elementwiseBy({ $0[keyPath: property] })
     }
     
+    static func reversed<T>(_ comparator: @escaping SPComparator<T>) -> SPComparator<T> {
+        return { lhs, rhs in
+            comparator(lhs, rhs).reversed()
+        }
+    }
+    
     static func withFallback<T>(
             _ fallback: @escaping () -> ComparisonResult
     ) -> SPComparator<T> where T : SPComparable {
