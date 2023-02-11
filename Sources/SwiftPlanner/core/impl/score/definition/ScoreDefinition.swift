@@ -31,7 +31,7 @@
  * @see HardSoftScoreDefinition
  * @param <Score_> the {@link Score} type
  */
-public protocol ScoreDefinition : CustomStringConvertible {
+public protocol ScoreDefinition<Score_> : CustomStringConvertible {
     
     associatedtype Score_ : Score
 
