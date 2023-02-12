@@ -129,7 +129,7 @@ public protocol ProblemChangeDirector {
      * @param <EntityOrProblemFact> the object type
      */
     func lookUpWorkingObjectOrFail<EntityOrProblemFact>(
-            externalObject: EntityOrProblemFact
+            _ externalObject: EntityOrProblemFact
     ) -> EntityOrProblemFact
 
     /**
@@ -144,7 +144,7 @@ public protocol ProblemChangeDirector {
      * @param <EntityOrProblemFact> the object type
      */
     func lookUpWorkingObject<EntityOrProblemFact>(
-            externalObject: EntityOrProblemFact
+            _ externalObject: EntityOrProblemFact
     ) -> EntityOrProblemFact?
     
 }

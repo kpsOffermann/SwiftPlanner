@@ -113,6 +113,6 @@ public protocol ScoreDirector<Solution_> {
      * @throws IllegalStateException if it cannot be looked up
      * @param <E> the object type
      */
-    func lookUpWorkingObjectOrReturnNull<E>(_ externalObject: E) -> E
+    func lookUpWorkingObjectOrReturnNull<E>(_ externalObject: E) -> E?
 
 }
