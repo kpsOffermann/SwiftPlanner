@@ -175,7 +175,7 @@ public protocol InnerScoreDirector<Solution_, Score_> : ScoreDirector/*, AutoClo
     /**
      * @return at least 0L
      */
-    func getCalculationCount() -> Int64
+    func getCalculationCount() -> UInt64
 
     func resetCalculationCount()
 
@@ -253,7 +253,7 @@ public protocol InnerScoreDirector<Solution_, Score_> : ScoreDirector/*, AutoClo
      * @see InnerScoreDirectorFactory#assertScoreFromScratch
      */
     func assertWorkingScoreFromScratch(
-            _workingScore: Score_,
+            _ workingScore: Score_,
             completedAction: CustomStringConvertible?
     )
 
@@ -270,7 +270,7 @@ public protocol InnerScoreDirector<Solution_, Score_> : ScoreDirector/*, AutoClo
      * @see InnerScoreDirectorFactory#assertScoreFromScratch
      */
     func assertPredictedScoreFromScratch(
-            _predictedScore: Score_,
+            _ predictedScore: Score_,
             completedAction: CustomStringConvertible?
     )
 
