@@ -35,34 +35,34 @@
 public class BestSolutionChangedEvent<Solution_> /*: EventObject*/ {
 
     private let solver: any Solver<Solution_>
-    private let timeMillisSpent: Int64
+    private let timeNanosSpent: UInt64
     private let newBestSolution: Solution_
     private let newBestScore: any Score
 
     /**
      * @param solver never null
-     * @param timeMillisSpent {@code >= 0L}
+     * @param timeNanosSpent {@code >= 0L}
      * @param newBestSolution never null
      */
     public init(
             solver: some Solver<Solution_>,
-            timeMillisSpent: Int64,
+            timeNanosSpent: UInt64,
             newBestSolution: Solution_,
             newBestScore: any Score
     ) {
         //super(solver)
         self.solver = solver
-        self.timeMillisSpent = timeMillisSpent
+        self.timeNanosSpent = timeNanosSpent
         self.newBestSolution = newBestSolution
         self.newBestScore = newBestScore
     }
 
     /**
-     * @return {@code >= 0}, the amount of millis spent since the {@link Solver} started
+     * @return {@code >= 0}, the amount of nanos spent since the {@link Solver} started
      *         until {@link #getNewBestSolution()} was found
      */
-    public func getTimeMillisSpent() -> Int64 {
-        return timeMillisSpent;
+    public func getTimeNanosSpent() -> UInt64 {
+        return timeNanosSpent;
     }
 
     /**
