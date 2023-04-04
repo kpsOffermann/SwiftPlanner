@@ -30,9 +30,6 @@ import Foundation
 /* WIP: requires SolutionDescriptor for
         getSolutionDescriptor, getWorkingEntityCount, getWorkingValueCount
  */
-/* WIP: requires AbstractStepScope for
-        getLastCompletedStepScope, reset, getNextStepIndex
- */
 // TODO: Check time values (i. could be uninitionalized!?; ii. ramifications of using DispatchTime)
 
 /**
@@ -70,27 +67,22 @@ public /*abstract*/ class AbstractPhaseScope<Solution_, Score_ : Score> : JavaSt
         return endingTime?.uptimeNanoseconds
     }
 
-    // WIP: AbstractStepScope
-    /*
-    public /*abstract*/ func getLastCompletedStepScope() -> AbstractStepScope<Solution_> {
+    public /*abstract*/ func getLastCompletedStepScope() -> AbstractStepScope<Solution_, Score_> {
         isAbstractMethod(Self.self)
     }
-     */
 
     // ************************************************************************
     // Calculated methods
     // ************************************************************************
 
-    /* WIP: AbstractStepScope
     public func reset() {
         bestSolutionStepIndex = -1
         // TODO Usage of solverScope.getBestScore() would be better performance wise but is null with a uninitialized score
-        startingScore = solverScope.calculateScore();
-        if (getLastCompletedStepScope().getStepIndex() < 0) {
-            getLastCompletedStepScope().setScore(startingScore);
+        startingScore = solverScope.calculateScore()
+        if (getLastCompletedStepScope().stepIndex < 0) {
+            getLastCompletedStepScope().score = startingScore
         }
     }
-     */
 
     public func startingNow() {
         startingTime = DispatchTime.now()
@@ -237,11 +229,9 @@ public /*abstract*/ class AbstractPhaseScope<Solution_, Score_ : Score> : JavaSt
         return max(bestSolutionTimeNanos, startingSystemTimeNanos)
     }
 
-    /* WIP: AbstractStepScope
     public func getNextStepIndex() -> Int {
-        return getLastCompletedStepScope().getStepIndex() + 1
+        return getLastCompletedStepScope().stepIndex + 1
     }
-     */
 
     public func toString() -> String {
         return String(describing: Self.self) // TODO add + "(" + phaseIndex + ")"
