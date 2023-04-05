@@ -52,3 +52,25 @@ public protocol SolverEventListener<Solution_> : EventListener {
     func bestSolutionChanged(event: BestSolutionChangedEvent<Solution_>)
 
 }
+
+@available(macOS 13.0.0, *)
+public class WrappedSolverEventListener<Solution_> : SolverEventListener, Equatable {
+    
+    private var wrapped: any SolverEventListener<Solution_>
+    
+    public init(_ wrapped: some SolverEventListener<Solution_>) {
+        self.wrapped = wrapped
+    }
+    
+    public func bestSolutionChanged(event: BestSolutionChangedEvent<Solution_>) {
+        wrapped.bestSolutionChanged(event: event)
+    }
+    
+    public static func == (
+            lhs: WrappedSolverEventListener<Solution_>,
+            rhs: WrappedSolverEventListener<Solution_>
+    ) -> Bool {
+        return Equals.check(lhs.wrapped, rhs.wrapped, orElse: { lhs === rhs })
+    }
+    
+}

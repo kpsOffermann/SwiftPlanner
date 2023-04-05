@@ -136,11 +136,11 @@ public protocol Solver<Solution_> {
     /**
      * @param eventListener never null
      */
-    func addEventListener(eventListener: any SolverEventListener<Solution_>)
+    func addEventListener(_ eventListener: any SolverEventListener<Solution_>)
 
     /**
      * @param eventListener never null
      */
-    func removeEventListener(eventListener: any SolverEventListener<Solution_>)
+    func removeEventListener(_ eventListener: any SolverEventListener<Solution_>)
 
 }

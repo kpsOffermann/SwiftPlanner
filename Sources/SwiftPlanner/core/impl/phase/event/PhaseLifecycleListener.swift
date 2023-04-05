@@ -39,3 +39,41 @@ public protocol PhaseLifecycleListener<Solution_, Score_> : SolverLifecycleListe
     func phaseEnded(_ phaseScope: AbstractPhaseScope<Solution_, Score_>)
 
 }
+
+@available(macOS 13.0.0, *)
+public class WrappedPhaseLifecycleListener<
+        Solution_,
+        Score_ : Score
+> : WrappedSolverLifecycleListener<Solution_, Score_>, PhaseLifecycleListener {
+    
+    private let wrapped: any PhaseLifecycleListener<Solution_, Score_>
+    
+    public init(_ wrapped: some PhaseLifecycleListener<Solution_, Score_>) {
+        self.wrapped = wrapped
+        super.init(wrapped)
+    }
+    
+    public func phaseStarted(_ phaseScope: AbstractPhaseScope<Solution_, Score_>) {
+        wrapped.phaseStarted(phaseScope)
+    }
+
+    public func stepStarted(_ stepScope: AbstractStepScope<Solution_, Score_>) {
+        wrapped.stepStarted(stepScope)
+    }
+
+    public func stepEnded(_ stepScope: AbstractStepScope<Solution_, Score_>) {
+        wrapped.stepEnded(stepScope)
+    }
+
+    public func phaseEnded(_ phaseScope: AbstractPhaseScope<Solution_, Score_>) {
+        wrapped.phaseEnded(phaseScope)
+    }
+    
+    public static func == (
+            lhs: WrappedPhaseLifecycleListener<Solution_, Score_>,
+            rhs: WrappedPhaseLifecycleListener<Solution_, Score_>
+    ) -> Bool {
+        return Equals.check(lhs.wrapped, rhs.wrapped, orElse: { lhs === rhs })
+    }
+    
+}

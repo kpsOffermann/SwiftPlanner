@@ -58,3 +58,36 @@ extension SolverLifecycleListener {
     }
     
 }
+
+@available(macOS 13.0.0, *)
+public class WrappedSolverLifecycleListener<
+        Solution_,
+        Score_ : Score
+> : SolverLifecycleListener, Equatable {
+    
+    private var wrapped: any SolverLifecycleListener<Solution_, Score_>
+    
+    public init(_ wrapped: any SolverLifecycleListener<Solution_, Score_>) {
+        self.wrapped = wrapped
+    }
+    
+    public func solvingStarted(_ solverScope: SolverScope<Solution_, Score_>) {
+        wrapped.solvingStarted(solverScope)
+    }
+
+    public func solvingEnded(_ solverScope: SolverScope<Solution_, Score_>) {
+        wrapped.solvingEnded(solverScope)
+    }
+
+    public func solvingError(solverScope: SolverScope<Solution_, Score_>, exception: Exception) {
+        wrapped.solvingError(solverScope: solverScope, exception: exception)
+    }
+    
+    public static func == (
+            lhs: WrappedSolverLifecycleListener<Solution_, Score_>,
+            rhs: WrappedSolverLifecycleListener<Solution_, Score_>
+    ) -> Bool {
+        return Equals.check(lhs.wrapped, rhs.wrapped, orElse: { lhs === rhs })
+    }
+    
+}

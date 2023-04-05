@@ -34,10 +34,22 @@ public class SolverEventSupport<
         Listener_ : SolverEventListener<Solution_>
 > : AbstractEventSupport<Listener_> {
 
-    private let solver: any Solver<Solution_>
-
+    private var solver: (any Solver<Solution_>)?
+    
     public init(solver: any Solver<Solution_>) {
         self.solver = solver
+    }
+    
+    // When using this constructor, the setSolver method has to be called before the object is used!
+    override init() {}
+    
+    func setSolver(_ solver: any Solver<Solution_>) {
+        self.solver = solver
+    }
+    
+    @available(macOS 13.0.0, *)
+    private func getSolver() -> any Solver<Solution_> {
+        return solver ?? illegalState("setSolver has to be called before this method!")
     }
 
     @available(macOS 13.0.0, *)
@@ -55,7 +67,7 @@ public class SolverEventSupport<
             return
         }
         let event = BestSolutionChangedEvent(
-            solver: solver,
+            solver: getSolver(),
             timeNanosSpent: timeNanosSpent,
             newBestSolution: newBestSolution,
             newBestScore: bestScore
