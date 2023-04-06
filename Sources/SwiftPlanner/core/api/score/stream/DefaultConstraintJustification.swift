@@ -127,7 +127,7 @@ public final class DefaultConstraintJustification : ConstraintJustification, SPC
          * Use cases which need to operate safely within Quarkus should use SolutionDescriptor's MemberAccessorFactory.
          */
         
-        /*
+        /* WIP
         classAndIdPlanningComparator =
                 new ClassAndPlanningIdComparator(new MemberAccessorFactory(), DomainAccessType.REFLECTION, false);
         other.classAndIdPlanningComparator = classAndIdPlanningComparator;

@@ -26,9 +26,6 @@
 
 import Foundation
 
-/* WIP: requires SolutionDescriptor for
-        getSolutionDescriptor, getWorkingEntityCount, getWorkingValueCount
- */
 /*
  WIP: Check whether parts with Semaphore are needed:
       runnableThreadSemaphore, setRunnableThreadSemaphore,
@@ -165,14 +162,15 @@ public class SolverScope<Solution_, Score_ : Score> {
     public func getWorkingSolution() -> Solution_ {
         return scoreDirector.getWorkingSolution()
     }
-    /*
+    
+    @available(macOS 13.0.0, *)
     public func getWorkingEntityCount() -> Int {
         return getSolutionDescriptor().getEntityCount(getWorkingSolution())
     }
-
+    
     public func getWorkingValueCount() -> Int {
         return getSolutionDescriptor().getValueCount(getWorkingSolution())
-    }*/
+    }
 
     public func calculateScore() -> Score_ {
         return scoreDirector.calculateScore()

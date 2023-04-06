@@ -27,10 +27,7 @@
 import Foundation
 
 // WIP: Logger
-/* WIP: requires SolutionDescriptor for
-        getSolutionDescriptor, getWorkingEntityCount, getWorkingValueCount
- */
-// TODO: Check time values (i. could be uninitionalized!?; ii. ramifications of using DispatchTime)
+// WIP: Check time values (i. could be uninitionalized!?; ii. ramifications of using DispatchTime)
 
 /**
  * @param <Solution_> the solution type, the class with the {@link PlanningSolution} annotation
@@ -94,11 +91,9 @@ public /*abstract*/ class AbstractPhaseScope<Solution_, Score_ : Score> : JavaSt
         endingScoreCalculationCount = getScoreDirector().getCalculationCount()
     }
 
-    /* WIP: SolutionDescriptor
     public func getSolutionDescriptor() -> SolutionDescriptor<Solution_> {
         return solverScope.getSolutionDescriptor()
     }
-     */
 
     public func calculateSolverTimeNanossSpentUpToNow() -> UInt64 {
         return solverScope.calculateTimeNanosSpentUpToNow()
@@ -152,7 +147,7 @@ public /*abstract*/ class AbstractPhaseScope<Solution_, Score_ : Score> : JavaSt
         return solverScope.getWorkingSolution()
     }
 
-    /* WIP: SolutionDescriptor
+    @available(macOS 13.0.0, *)
     public func getWorkingEntityCount() -> Int {
         return solverScope.getWorkingEntityCount()
     }
@@ -160,7 +155,6 @@ public /*abstract*/ class AbstractPhaseScope<Solution_, Score_ : Score> : JavaSt
     public func getWorkingValueCount() -> Int {
         return solverScope.getWorkingValueCount()
     }
-     */
 
     public func calculateScore() -> Score_ {
         return solverScope.calculateScore()

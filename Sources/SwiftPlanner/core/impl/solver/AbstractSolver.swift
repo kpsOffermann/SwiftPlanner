@@ -25,9 +25,6 @@
  */
 
 // WIP: Logger
-/* WIP: requires SolutionDescriptor for
-        runPhases
- */
 
 @available(macOS 13.0.0, *)
 public typealias AbstractSolver<Solution_, Score_ : Score> = AbstractSolverClass<Solution_, Score_> & Solver

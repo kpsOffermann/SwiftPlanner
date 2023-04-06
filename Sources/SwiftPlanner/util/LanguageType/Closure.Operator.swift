@@ -61,8 +61,8 @@ postfix func .?<A, B>(closure: @escaping (A) -> B) -> (A?) -> B? {
    
  - Returns: `nil`, if `value` is `nil`, otherwise the result of passing `value` to the closure.
  */
-func .?<A, B>(closure: @escaping (A) -> B, value: A?) -> B? {
-    return value ??! closure ..! nil
+func .?<A, B>(closure: (A) -> B, value: A?) -> B? {
+    return invokeOrNil(closure, value)
 }
 
 /**
@@ -74,4 +74,11 @@ func .?<A, B>(closure: @escaping (A) -> B, value: A?) -> B? {
  */
 prefix func ©<K, V : SPComparable> (map: @escaping (K) -> V) -> SPComparator<K> {
     return Comparators.by(map)
+}
+
+func invokeOrNil<S, T>(_ closure: (S) -> T, _ value: S?) -> T? {
+    if let notNilValue = value {
+        return closure(notNilValue)
+    }
+    return nil
 }

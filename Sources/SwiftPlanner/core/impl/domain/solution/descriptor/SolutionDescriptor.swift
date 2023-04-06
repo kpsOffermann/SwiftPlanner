@@ -47,6 +47,41 @@ public class SolutionDescriptor<Solution_> {
     private let lowestEntityDescriptorMap = TypeDictionary<EntityDescriptor<Solution_>>()
     
     /**
+     * @param solution never null
+     * @return {@code >= 0}
+     */
+    @available(macOS 13.0.0, *)
+    public func getEntityCount(_ solution: Solution_) -> Int {
+        var result: Int = 0
+        visitAllEntities(solution, { _ in result += 1 }, collectionVisitor: { result += $0.count })
+        return result
+    }
+    
+    @available(macOS 13.0.0, *)
+    public func visitAllEntities(solution: Solution_ , visitor: (Any) -> Void) {
+        visitAllEntities(solution, visitor, collectionVisitor: { $0.forEach(visitor) })
+    }
+    
+    @available(macOS 13.0.0, *)
+    private func visitAllEntities(
+            _ solution: Solution_,
+            _ visitor: (Any) -> Void,
+            collectionVisitor : ([Any]) -> Void
+    ) {
+        for entityMemberAccessor in entityMemberAccessorMap.values {
+            visitor.?(extractMemberObject(entityMemberAccessor, solution))
+        }
+        for entityCollectionMemberAccessor in entityCollectionMemberAccessorMap.values {
+            let entityCollection = extractMemberCollectionOrArray(
+                entityCollectionMemberAccessor,
+                solution,
+                isFact: false
+            )
+            collectionVisitor(entityCollection)
+        }
+    }
+    
+    /**
      * @param scoreDirector never null
      * @return {@code >= 0}
      */
@@ -57,6 +92,19 @@ public class SolutionDescriptor<Solution_> {
                 findEntityDescriptorOrFail(type(of: entity))
                     .isMovable(scoreDirector: scoreDirector, entity: entity)
             })
+    }
+    
+    /**
+      * @param solution never null
+      * @return {@code >= 0}
+      */
+    public func getValueCount(_ solution: Solution_) -> Int {
+        // let valueCount = 0
+        // TODO FIXME for ValueRatioTabuSizeStrategy (or reuse maximumValueCount() for that variable descriptor?)
+        return unsupportedOperation(
+            "getValueCount is not yet supported - this blocks ValueRatioTabuSizeStrategy"
+        )
+        // return valueCount;
     }
     
     public func findEntityDescriptorOrFail(_ entitySubclass: Any.Type) -> EntityDescriptor<Solution_> {
