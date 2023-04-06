@@ -86,6 +86,10 @@ public class BendableScoreDefinition : AbstractBendableScoreDefinition<BendableS
     }
 
     public func createScore(_ scores: Int...) -> BendableScore {
+        createScore(scores)
+    }
+    
+    public func createScore(_ scores: [Int]) -> BendableScore {
         return createScoreUninitialized(initScore: 0, scores: scores)
     }
 

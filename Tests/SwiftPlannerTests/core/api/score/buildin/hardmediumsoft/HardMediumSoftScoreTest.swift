@@ -24,6 +24,8 @@
          limited to) translating the original file to Swift.
  */
 
+// WIP: expected fail test: test_parseScoreIllegalArgument
+
 import XCTest
 @testable import SwiftPlanner
 
