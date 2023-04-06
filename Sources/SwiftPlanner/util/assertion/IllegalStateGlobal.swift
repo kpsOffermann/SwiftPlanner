@@ -19,7 +19,7 @@
  Informs the programmer that an illegal state has occured, e.g. a method is called before some
  preconditions for the call are met.
  
- - Parameter errorMessage: message to describe what source code is missing.
+ - Parameter errorMessage: message to describe the details of the illegal state.
  
  - Returns: nothing. The method will always cause fatal error before reaching the return statement.
  */
@@ -29,6 +29,6 @@ func illegalState<T>(_ errorMessage: String) -> T {
 
 // Documentation: see above.
 func illegalState(_ errorMessage: String) {
-    let _: Any = missingFeature(errorMessage)
+    let _: Any = illegalState(errorMessage)
 }
 

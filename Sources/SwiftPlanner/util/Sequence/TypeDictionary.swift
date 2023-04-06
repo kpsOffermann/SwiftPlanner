@@ -16,17 +16,21 @@
  */
 
 /**
- The requested operation is not supported.
- 
- - Parameter errorMessage: message to describe what operation is unsupported.
- 
- - Returns: nothing. The method will always cause fatal error before reaching the return statement.
+ A dictionary with metatypes as keys.
  */
-func unsupportedOperation<T>(_ errorMessage: String = "Operation is not supported") -> T {
-    fatalError(errorMessage)
-}
-
-// Documentation: see above.
-func unsupportedOperation(_ errorMessage: String = "Operation is not supported") {
-    let _: Any = unsupportedOperation(errorMessage)
+public class TypeDictionary<Value> {
+    
+    public typealias Key = Any.Type
+    
+    private var dictionary = [ObjectIdentifier:Value]()
+    
+    public subscript(key: Key) -> Value? {
+        get {
+            return dictionary[ObjectIdentifier(key)]
+        }
+        set {
+            dictionary[ObjectIdentifier(key)] = newValue
+        }
+    }
+    
 }

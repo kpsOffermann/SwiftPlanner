@@ -24,8 +24,6 @@
          limited to) translating the original file to Swift.
  */
 
-// WIP: requires SolutionDescriptor for getSolutionDescriptor
-
 /**
  * @param <Solution_> the solution type, the class with the {@link PlanningSolution} annotation
  * @param <Score_> the score type to go with the solution
@@ -35,12 +33,10 @@ public protocol InnerScoreDirectorFactory<Solution_, Score_> : ScoreDirectorFact
     associatedtype Solution_
     associatedtype Score_ : Score
 
-    /* WIP (see top of file)
     /**
      * @return never null
      */
     func getSolutionDescriptor() -> SolutionDescriptor<Solution_>
-     */
 
     /**
      * @return never null

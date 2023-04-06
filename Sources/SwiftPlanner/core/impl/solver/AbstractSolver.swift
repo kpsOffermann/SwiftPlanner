@@ -102,14 +102,16 @@ public /*abstract*/ class AbstractSolverClass<Solution_, Score_ : Score> /*: Sol
     }
 
     func runPhases(_ solverScope: SolverScope<Solution_, Score_>) {
-    /* WIP: SolutionDescriptor
         if (!solverScope.getSolutionDescriptor().hasMovableEntities(solverScope.getScoreDirector())) {
-            logger.info("Skipped all phases ({}): out of {} planning entities, none are movable (non-pinned).",
-                    phaseList.size(),
-                    solverScope.getSolutionDescriptor().getEntityCount(solverScope.getWorkingSolution()));
-            return;
+            /* WIP: Logger
+            logger.info(
+                "Skipped all phases ({}): out of {} planning entities, none are movable (non-pinned).",
+                phaseList.size(),
+                solverScope.getSolutionDescriptor().getEntityCount(solverScope.getWorkingSolution())
+            )
+             */
+            return
         }
-      */
         if phaseList.isEmpty {
             return
         }

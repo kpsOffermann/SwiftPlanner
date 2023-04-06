@@ -15,18 +15,20 @@
  limitations under the License.
  */
 
-/**
- The requested operation is not supported.
- 
- - Parameter errorMessage: message to describe what operation is unsupported.
- 
- - Returns: nothing. The method will always cause fatal error before reaching the return statement.
- */
-func unsupportedOperation<T>(_ errorMessage: String = "Operation is not supported") -> T {
-    fatalError(errorMessage)
-}
+import XCTest
+@testable import SwiftPlanner
 
-// Documentation: see above.
-func unsupportedOperation(_ errorMessage: String = "Operation is not supported") {
-    let _: Any = unsupportedOperation(errorMessage)
+class ReflectionHelperTest : XCTestCase {
+    
+    func test_transformArrayToList() {
+        let array: Any = [7, 9, 23]
+        let expected = [7, 9, 23]
+        let preActual = ReflectionHelper.transformArrayToList(array)
+        guard let actual = preActual as? [Int] else {
+            XCTFail("Method returned nil instead of \(expected)")
+            fatalError()
+        }
+        XCTAssertEqual(actual, expected)
+    }
+    
 }

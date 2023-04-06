@@ -16,17 +16,17 @@
  */
 
 /**
- The requested operation is not supported.
+ Informs the programmer that a method has been called with an illegal argument.
  
- - Parameter errorMessage: message to describe what operation is unsupported.
+ - Parameter errorMessage: message to describe what argument was wrong.
  
  - Returns: nothing. The method will always cause fatal error before reaching the return statement.
  */
-func unsupportedOperation<T>(_ errorMessage: String = "Operation is not supported") -> T {
+func illegalArgument<T>(_ errorMessage: String) -> T {
     fatalError(errorMessage)
 }
 
 // Documentation: see above.
-func unsupportedOperation(_ errorMessage: String = "Operation is not supported") {
-    let _: Any = unsupportedOperation(errorMessage)
+func illegalArgument(_ errorMessage: String) {
+    let _: Any = illegalArgument(errorMessage)
 }

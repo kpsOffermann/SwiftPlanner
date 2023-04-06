@@ -153,10 +153,10 @@ public class SolverScope<Solution_, Score_ : Score> {
     public func getEndingSystemTimeNanos() -> UInt64? {
         return endingTime?.uptimeNanoseconds
     }
-    /*
+    
     public func getSolutionDescriptor() -> SolutionDescriptor<Solution_> {
         return scoreDirector.getSolutionDescriptor()
-    }*/
+    }
 
     public func getScoreDefinition() -> any ScoreDefinition<Score_> {
         return scoreDirector.getScoreDefinition()

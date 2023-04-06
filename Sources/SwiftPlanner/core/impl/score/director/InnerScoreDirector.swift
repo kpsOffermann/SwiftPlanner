@@ -25,7 +25,6 @@
  */
 
 // WIP: requires ScoreDirectorFactory for getScoreDirectorFactory
-// WIP: requires SolutionDescriptor for getSolutionDescriptor
 // WIP: requires VariableDescriptor, ListVariableDescriptor for part II
 // WIP: Features of AutoCloseable
 
@@ -143,12 +142,10 @@ public protocol InnerScoreDirector<Solution_, Score_> : ScoreDirector/*, AutoClo
      */
     func getScoreDirectorFactory() -> any InnerScoreDirectorFactory<Solution_, Score_>
     
-    /* WIP (see top of file)
     /**
      * @return never null
      */
     func getSolutionDescriptor() -> SolutionDescriptor<Solution_>
-     */
 
     /**
      * @return never null

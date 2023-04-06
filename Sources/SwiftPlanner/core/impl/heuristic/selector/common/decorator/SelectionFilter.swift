@@ -38,7 +38,7 @@
  * @param <Solution_> the solution type, the class with the {@link PlanningSolution} annotation
  * @param <T> the selection type
  */
-public protocol SelectionFilter<Solution_> {
+public protocol SelectionFilter<Solution_, T> {
     
     associatedtype Solution_
     
