@@ -15,15 +15,15 @@
  limitations under the License.
  */
 
-protocol HashableByIdentity : AnyObject, Hashable {}
+public protocol HashableByIdentity : AnyObject, Hashable {}
 
-extension HashableByIdentity {
+public extension HashableByIdentity {
     
-    public static func ==(lhs: Self, rhs: Self) -> Bool {
+    static func ==(lhs: Self, rhs: Self) -> Bool {
         return lhs === rhs
     }
 
-    public func hash(into hasher: inout Hasher) {
+    func hash(into hasher: inout Hasher) {
         hasher.combine(ObjectIdentifier(self))
     }
     

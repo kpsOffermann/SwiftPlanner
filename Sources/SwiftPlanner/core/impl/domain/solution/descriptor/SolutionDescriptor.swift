@@ -25,7 +25,6 @@
  */
 
 // WIP: currently contains only methods that are used somewhere else
-// WIP: method bodies
 /* WIP: requires ReflectionFieldMemberAccessor for
         extractMemberCollectionOrArray
  */
@@ -40,6 +39,7 @@ public class SolutionDescriptor<Solution_> {
     
     private let entityMemberAccessorMap = [String:MemberAccessor]()
     private let entityCollectionMemberAccessorMap = [String:MemberAccessor]()
+    private var scoreDescriptor: ScoreDescriptor?
     
     private let entityDescriptorMap = TypeDictionary<EntityDescriptor<Solution_>>()
     private let reversedEntityClassList = [Any.Type]()
@@ -226,6 +226,31 @@ public class SolutionDescriptor<Solution_> {
                 + ") was set with nil instead of an empty collection/array when the class ("
                 + String(describing: solutionClass) + ") instance was created."
             )
+    }
+    
+    /**
+     * @param solution never null
+     * @return sometimes null, if the {@link Score} hasn't been calculated yet
+     */
+    public func getScore(_ solution: Solution_) -> (any Score)? {
+        guard let scoreDescriptor = scoreDescriptor else {
+            return illegalState("scoreDescriptor is uninitialized!")
+        }
+        return scoreDescriptor.getScore(solution)
+    }
+    
+    /**
+     * Called when the {@link Score} has been calculated or predicted.
+     *
+     * @param solution never null
+     * @param score sometimes null, in rare occasions to indicate that the old {@link Score} is stale,
+     *        but no new ones has been calculated
+     */
+    public func setScore(solution: Solution_, score: any Score) {
+        guard let scoreDescriptor = scoreDescriptor else {
+            return illegalState("scoreDescriptor is uninitialized!")
+        }
+        scoreDescriptor.setScore(solution: solution, score: score)
     }
     
 }

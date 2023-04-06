@@ -26,14 +26,22 @@
 
 // WIP: currently contains only methods that are used somewhere else
 
-public protocol MemberAccessor {
+public class ScoreDescriptor {
+
+    private let scoreMemberAccessor: MemberAccessor
+    private let scoreDefinition: any ScoreDefinition
+
+    private init(scoreMemberAccessor: MemberAccessor, scoreDefinition: any ScoreDefinition) {
+        self.scoreMemberAccessor = scoreMemberAccessor
+        self.scoreDefinition = scoreDefinition
+    }
     
-    func getName() -> String
-    
-    func getType() -> Any.Type
-    
-    func executeGetter(_ bean: Any) -> Any?
-    
-    func executeSetter(bean: Any, value: Any) // WIP: check whether nil is possible for value
+    public func getScore(_ solution: Any) -> (any Score)? {
+        return scoreMemberAccessor.executeGetter(solution) as? (any Score)
+    }
+
+    public func setScore(solution: Any, score: any Score) {
+        scoreMemberAccessor.executeSetter(bean: solution, value: score)
+    }
     
 }

@@ -24,10 +24,6 @@
          limited to) translating the original file to Swift.
  */
 
-/* WIP: requires SolutionDescriptor for
-        solvingStarted, updateBestSolutionWithoutFiring
- */
-
 import Foundation
 
 /**
@@ -75,7 +71,6 @@ public class BestSolutionRecaller<
     // Worker methods
     // ************************************************************************
 
-    // WIP: SolutionDescriptor (see below)
     public override func solvingStarted(_ solverScope: SolverScope<Solution_, Score_>) {
         // Starting bestSolution is already set by Solver.solve(Solution)
         let scoreDirector = solverScope.getScoreDirector()
@@ -83,9 +78,10 @@ public class BestSolutionRecaller<
         solverScope.setBestScore(score)
         solverScope.setBestSolutionTime(DispatchTime.now())
         // The original bestSolution might be the final bestSolution and should have an accurate Score
-    /* WIP: SolutionDescriptor
-        solverScope.getSolutionDescriptor().setScore(solverScope.getBestSolution(), score)
-     */
+        solverScope.getSolutionDescriptor().setScore(
+            solution: getBestSolution(solverScope),
+            score: score
+        )
         solverScope.startingInitializedScore = score.isSolutionInitialized() ? score : nil
         if (assertInitialScoreFromScratch) {
             scoreDirector.assertWorkingScoreFromScratch(
@@ -195,17 +191,16 @@ public class BestSolutionRecaller<
         )
     }
 
-    // WIP: SolutionDescriptor
     private func updateBestSolutionWithoutFiring(_ solverScope: SolverScope<Solution_, Score_>) {
-    /* WIP: SolutionDescriptor
         let newBestSolution = solverScope.getScoreDirector().cloneWorkingSolution()
-        let newBestScore = solverScope.getSolutionDescriptor().getScore(newBestSolution)
+        guard let newBestScore = solverScope.getSolutionDescriptor().getScore(newBestSolution) as? Score_ else {
+            return illegalState("score of solver scope's solution descriptor is uninitialized")
+        }
         updateBestSolutionWithoutFiring(
             solverScope: solverScope,
             bestScore: newBestScore,
             bestSolution: newBestSolution
         )
-     */
     }
 
     private func updateBestSolutionWithoutFiring(
