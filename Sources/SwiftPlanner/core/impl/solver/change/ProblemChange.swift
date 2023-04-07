@@ -98,3 +98,18 @@ public protocol ProblemChange<Solution_> {
     func doChange(workingSolution: Solution_, problemChangeDirector: ProblemChangeDirector)
     
 }
+
+public extension ProblemChange {
+    
+    // The equivalent in OptaPlanner is the static method ProblemChangeAdapter.create(problemChange:)
+    func adapter<Score_ : Score>() -> ProblemChangeAdapter<Solution_, Score_> {
+        return { solverScope in
+            self.doChange(
+                workingSolution: solverScope.getWorkingSolution(),
+                problemChangeDirector: solverScope.getProblemChangeDirector()
+            )
+            solverScope.getScoreDirector().triggerVariableListeners()
+        }
+    }
+    
+}

@@ -25,6 +25,26 @@
 
 public final class Tags : Hashable {
     
+    public static func and(_ lhs: Tags, _ rhs: Tags) -> Tags {
+        return missingFeature("Tags is currently only a mockup") // WIP (see above)
+    }
+    
+    public func and(_ tags: Tags) -> Tags {
+        return missingFeature("Tags is currently only a mockup") // WIP (see above)
+    }
+    
+    public static func of(_ pair: (String, String)) -> Tags {
+        return missingFeature("Tags is currently only a mockup") // WIP (see above)
+    }
+    
+    public static func of(_ key: String, _ value: String) -> Tags {
+        return missingFeature("Tags is currently only a mockup") // WIP (see above)
+    }
+    
+    public static func empty() -> Tags {
+        return missingFeature("Tags is currently only a mockup") // WIP (see above)
+    }
+    
     public static func == (lhs: Tags, rhs: Tags) -> Bool {
         return false // WIP (see above)
     }

@@ -24,9 +24,99 @@
          limited to) translating the original file to Swift.
  */
 
-// WIP: Implement the cases (as static let)
+// WIP: Implement the cases with custom register functions (create the register types).
+
+// ************************************************************************
+// Helper vars to replicate generic let
+// ************************************************************************
+
+fileprivate var solveDuration_Store = TypeDictionary<Any>()
+fileprivate var errorCount_Store = TypeDictionary<Any>()
+fileprivate var stepScore_Store = TypeDictionary<Any>()
+fileprivate var scoreCalculationCount_Store = TypeDictionary<Any>()
+fileprivate var moveCountPerStep_Store = TypeDictionary<Any>()
+fileprivate var constraintMatchTotalBestScore_Store = TypeDictionary<Any>()
+fileprivate var constraintMatchTotalStepScore_Store = TypeDictionary<Any>()
 
 public final class SolverMetric<Solution_> : HashableByIdentity {
+    
+    // ************************************************************************
+    // Helper method to replicate generic let
+    // ************************************************************************
+    
+    private static func get(
+            from store: TypeDictionary<Any>,
+            orElse initialize: () -> SolverMetric<Solution_>
+    ) -> SolverMetric<Solution_> {
+        if let result = store[Solution_.self] as? SolverMetric<Solution_> {
+            return result
+        }
+        let newResult = initialize()
+        store[Solution_.self] = newResult
+        return newResult
+    }
+    
+    // ************************************************************************
+    // replicated generic let constants
+    // ************************************************************************
+    
+    static var SOLVE_DURATION: SolverMetric<Solution_> {
+        return get(from: solveDuration_Store, orElse: {
+            SolverMetric("optaplanner.solver.solve.duration", isBestSolutionBased: false)
+        })
+    }
+    
+    static var ERROR_COUNT: SolverMetric<Solution_> {
+        return get(from: errorCount_Store, orElse: {
+            SolverMetric("optaplanner.solver.errors", isBestSolutionBased: false)
+        })
+    }
+    
+    // WIP: BEST_SCORE
+    // BEST_SCORE("optaplanner.solver.best.score", new BestScoreStatistic<>(), true),
+    
+    static var STEP_SCORE: SolverMetric<Solution_> {
+        return get(from: stepScore_Store, orElse: {
+            SolverMetric("optaplanner.solver.step.score", isBestSolutionBased: false)
+        })
+    }
+    
+    static var SCORE_CALCULATION_COUNT: SolverMetric<Solution_> {
+        return get(from: scoreCalculationCount_Store, orElse: {
+            SolverMetric("optaplanner.solver.score.calculation.count", isBestSolutionBased: false)
+        })
+    }
+    
+    // WIP: BEST_SOLUTION_MUTATION
+    // BEST_SOLUTION_MUTATION("optaplanner.solver.best.solution.mutation", new BestSolutionMutationCountStatistic<>(), true),
+    
+    static var MOVE_COUNT_PER_STEP: SolverMetric<Solution_> {
+        return get(from: moveCountPerStep_Store, orElse: {
+            SolverMetric("optaplanner.solver.step.move.count", isBestSolutionBased: false)
+        })
+    }
+    
+    // WIP: MEMORY_USE
+    // MEMORY_USE("jvm.memory.used", new MemoryUseStatistic<>(), false),
+    
+    static var CONSTRAINT_MATCH_TOTAL_BEST_SCORE: SolverMetric<Solution_> {
+        return get(from: constraintMatchTotalBestScore_Store, orElse: {
+            .init("optaplanner.solver.constraint.match.best.score", isBestSolutionBased: true)
+        })
+    }
+    
+    static var CONSTRAINT_MATCH_TOTAL_STEP_SCORE: SolverMetric<Solution_> {
+        return get(from: constraintMatchTotalStepScore_Store, orElse: {
+            .init("optaplanner.solver.constraint.match.step.score", isBestSolutionBased: false)
+        })
+    }
+    
+    // WIP: PICKED_MOVE_TYPE_BEST_SCORE_DIFF
+    // PICKED_MOVE_TYPE_BEST_SCORE_DIFF("optaplanner.solver.move.type.best.score.diff", new PickedMoveBestScoreDiffStatistic<>(),  true),
+    
+    // WIP: PICKED_MOVE_TYPE_STEP_SCORE_DIFF
+    // PICKED_MOVE_TYPE_STEP_SCORE_DIFF("optaplanner.solver.move.type.step.score.diff", new PickedMoveStepScoreDiffStatistic<>(), false)
+    
     
     /*
     SOLVE_DURATION("optaplanner.solver.solve.duration", false),
@@ -50,16 +140,16 @@ public final class SolverMetric<Solution_> : HashableByIdentity {
     private let registerFunction: any SolverStatistic<Solution_>
     private let isBestSolutionBased: Bool
 
-    private convenience init(meterId: String, isBestSolutionBased: Bool) {
+    fileprivate convenience init(_ meterId: String, isBestSolutionBased: Bool) {
         self.init(
-            meterId: meterId,
+            meterId,
             registerFunction: StatelessSolverStatistic<Solution_>(),
             isBestSolutionBased: isBestSolutionBased
         )
     }
 
-    private init(
-            meterId: String,
+    fileprivate init(
+            _ meterId: String,
             registerFunction: some SolverStatistic<Solution_>,
             isBestSolutionBased: Bool
     ) {
@@ -107,11 +197,11 @@ public final class SolverMetric<Solution_> : HashableByIdentity {
         return isBestSolutionBased;
     }
 
-    public func register(solver: any Solver<Solution_>) {
+    public func register(_ solver: any Solver<Solution_>) {
         registerFunction.register(solver: solver)
     }
 
-    public func unregister(solver: any Solver<Solution_>) {
+    public func unregister(_ solver: any Solver<Solution_>) {
         registerFunction.unregister(solver: solver)
     }
     

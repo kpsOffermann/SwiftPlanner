@@ -55,7 +55,8 @@ public protocol Solver<Solution_> {
      * @return never null, but it can return the original, uninitialized {@link PlanningSolution} with a null {@link Score}.
      * @see #terminateEarly()
      */
-    func solve(_ problem: Solution_) -> Solution_
+    @available(macOS 10.15.0, *)
+    func solve(_ problem: Solution_) async -> Solution_
 
     /**
      * Notifies the solver that it should stop at its earliest convenience.
@@ -72,7 +73,8 @@ public protocol Solver<Solution_> {
      * @see #isTerminateEarly()
      * @see Future#cancel(boolean)
      */
-    func terminateEarly() -> Bool
+    @available(macOS 10.15.0, *)
+    func terminateEarly() async -> Bool
 
     /**
      * This method is thread-safe.

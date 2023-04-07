@@ -1,5 +1,6 @@
 //
 /*
+ Copyright 2023 Micrometer-metrics
  Copyright 2023 KPS Software GmbH
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,29 +16,22 @@
  limitations under the License.
  */
 
-// WIP: This is currently a mockup to collect the needed features, especially: add concurrency.
+// WIP: Implement actual features. (This is currently a mockup to collect the needed features.)
 
-@available(macOS 10.15.0, *)
-public class BlockingQueue<Element> {
+public protocol LongTaskTimer {
     
-    private var elements = [Element]()
+    typealias Sample = LongTaskTimerSample
     
-    var isEmpty: Bool {
-        return elements.isEmpty
-    }
+    func start() -> LongTaskTimer.Sample
     
-    func add(_ element: Element) -> Bool {
-        elements.append(element)
-        return true
-    }
+}
+
+// WIP: Implement actual features. (This is currently a mockup to collect the needed features.)
+
+public /*abstract*/ class LongTaskTimerSample {
     
-    func addAll<S : Sequence>(_ newElements: S) -> Bool where S.Element == Element {
-        elements += newElements
-        return true
-    }
-    
-    func poll() -> Element? {
-        return isEmpty ? nil : elements.removeFirst()
+    public /*abstract*/ func stop() -> Int64 {
+        return isAbstractMethod(Self.self)
     }
     
 }

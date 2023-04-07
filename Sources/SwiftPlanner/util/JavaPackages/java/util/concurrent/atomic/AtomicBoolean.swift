@@ -15,29 +15,22 @@
  limitations under the License.
  */
 
-// WIP: This is currently a mockup to collect the needed features, especially: add concurrency.
+// WIP: Implement actual features. (This is currently a mockup to collect the needed features.)
 
-@available(macOS 10.15.0, *)
-public class BlockingQueue<Element> {
+public class AtomicBoolean {
     
-    private var elements = [Element]()
+    private var value: Bool
     
-    var isEmpty: Bool {
-        return elements.isEmpty
+    public init(_ initialValue: Bool) {
+        value = initialValue
     }
     
-    func add(_ element: Element) -> Bool {
-        elements.append(element)
-        return true
+    public func get() -> Bool {
+        return value
     }
     
-    func addAll<S : Sequence>(_ newElements: S) -> Bool where S.Element == Element {
-        elements += newElements
-        return true
-    }
-    
-    func poll() -> Element? {
-        return isEmpty ? nil : elements.removeFirst()
+    public final func set(_ newValue: Bool) {
+        value = newValue
     }
     
 }

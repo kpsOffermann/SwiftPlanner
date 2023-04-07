@@ -25,8 +25,27 @@
 
 public enum Metrics {
     
-    static func gauge<T>(name: String, tags: Tags, value: T, valueFunction: (T) -> Double) -> T {
+    public static let globalRegistry = CompositeMeterRegistry()
+    
+    public static func counter(name: String, tags: String...) -> Counter {
+        return missingFeature("Metrics is currently only a mockup") // WIP (see above)
+    }
+    
+    public static func more() -> Metrics.More {
+        return missingFeature("Metrics is currently only a mockup") // WIP (see above)
+    }
+    
+    public static func gauge<T>(name: String, tags: Tags, value: T, valueFunction: (T) -> Double) -> T {
         return value // WIP: see above
+    }
+    
+    // WIP: Implement actual features. (This is currently a mockup to collect the needed features.)
+    public class More {
+        
+        public func longTaskTimer(name: String, tags: String...) -> LongTaskTimer {
+            return missingFeature("Metrics is currently only a mockup") // WIP (see above)
+        }
+        
     }
     
 }
