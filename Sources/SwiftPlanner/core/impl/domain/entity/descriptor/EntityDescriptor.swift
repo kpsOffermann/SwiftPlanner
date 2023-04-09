@@ -25,14 +25,33 @@
  */
 
 // WIP: currently contains only methods that are used somewhere else
-// WIP: constructor body
+// WIP: implement constructor body
+/* WIP: requires annotations for
+        processAnnotations
+ */
+
 public class EntityDescriptor<Solution_> {
+    
+    public let entityClass: Any.Type
     
     // Caches the inherited, declared and descending movable filters (including @PlanningPin filters) as a composite filter
     private var effectiveMovableEntitySelectionFilter: (any SelectionFilter<Solution_, Any>)?
     
+    // ************************************************************************
+    // Constructors and simple getters/setters
+    // ************************************************************************
+    
     public init(_ solutionDescriptor: SolutionDescriptor<Solution_>?, _ entityClass: Any.Type) {
-        // WIP
+        // WIP: Implement
+        fatalError("not yet implemented")
+    }
+    
+    // ************************************************************************
+    // Lifecycle methods
+    // ************************************************************************
+
+    public func processAnnotations(_ descriptorPolicy: DescriptorPolicy) {
+        // WIP: Implement
     }
     
     public func isMovable(scoreDirector: any ScoreDirector<Solution_>, entity: Any) -> Bool {

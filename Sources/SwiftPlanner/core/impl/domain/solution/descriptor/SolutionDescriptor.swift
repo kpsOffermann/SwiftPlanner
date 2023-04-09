@@ -25,6 +25,9 @@
  */
 
 // WIP: currently contains only methods that are used somewhere else
+/* WIP: requires annotations for
+        processAnnotations, afterAnnotationsProcessed
+ */
 /* WIP: requires ReflectionFieldMemberAccessor for
         extractMemberCollectionOrArray
  */
@@ -35,16 +38,127 @@ public class SolutionDescriptor<Solution_> {
     // WIP: type argument; WIP: see for alternative of static (in generic class)
     private let NULL_ENTITY_DESCRIPTOR = EntityDescriptor<Solution_>(nil, SolutionDescriptor.self)
     
-    private let solutionClass: Solution_.Type = Solution_.self // WIP: initial value
+    public static func buildSolutionDescriptor(
+            _ solutionClass: Solution_.Type,
+            entityClasses: Any.Type...
+    ) -> SolutionDescriptor<Solution_> {
+        return buildSolutionDescriptor(solutionClass, entityClassList: entityClasses)
+    }
+    
+    public static func buildSolutionDescriptor(
+            _ solutionClass: Solution_.Type,
+            entityClassList: [Any.Type]
+    ) -> SolutionDescriptor<Solution_> {
+        return buildSolutionDescriptor(
+            domainAccessType: .REFLECTION,
+            solutionClass: solutionClass,
+            memberAccessorMap: nil,
+            solutionClonerMap: nil,
+            entityClassList: entityClassList
+        )
+    }
+    
+    public static func buildSolutionDescriptor(
+            domainAccessType: DomainAccessType,
+            solutionClass: Solution_.Type,
+            memberAccessorMap: [String:MemberAccessor]?,
+            solutionClonerMap: [String:any SolutionCloner]?,
+            entityClassList: [Any.Type]
+    ) -> SolutionDescriptor<Solution_> {
+        let solutionDescriptor = SolutionDescriptor<Solution_>(
+            solutionClass: solutionClass,
+            memberAccessorMap: memberAccessorMap
+        )
+        let descriptorPolicy = DescriptorPolicy()
+        descriptorPolicy.domainAccessType = domainAccessType
+        descriptorPolicy.generatedSolutionClonerMap = solutionClonerMap ?? .init()
+        descriptorPolicy.setMemberAccessorFactory(solutionDescriptor.memberAccessorFactory)
+
+        solutionDescriptor.processAnnotations(
+            descriptorPolicy: descriptorPolicy,
+            entityClassList: entityClassList
+        )
+        for entityClass in sortedEntityClassList(entityClassList) {
+            let entityDescriptor = EntityDescriptor<Solution_>(solutionDescriptor, entityClass)
+            solutionDescriptor.addEntityDescriptor(entityDescriptor)
+            entityDescriptor.processAnnotations(descriptorPolicy)
+        }
+        solutionDescriptor.afterAnnotationsProcessed(descriptorPolicy)
+        return solutionDescriptor
+    }
+    
+    private static func sortedEntityClassList(_ entityClassList: [Any.Type]) -> [Any.Type] {
+        var sortedEntityClassList = [Any.Type]()
+        for entityClass in entityClassList {
+            var added = false
+            for (index, sortedEntityClass) in sortedEntityClassList.enumerated() {
+                if MetaTypes.isAssignable(entityClass, from: sortedEntityClass) {
+                    sortedEntityClassList.insert(entityClass, at: index)
+                    added = true
+                    break
+                }
+            }
+            if !added {
+                sortedEntityClassList.append(entityClass)
+            }
+        }
+        return sortedEntityClassList
+    }
+    
+    // ************************************************************************
+    // Non-static members
+    // ************************************************************************
+    
+    private let solutionClass: Solution_.Type
+    private let memberAccessorFactory: MemberAccessorFactory
     
     private let entityMemberAccessorMap = [String:MemberAccessor]()
     private let entityCollectionMemberAccessorMap = [String:MemberAccessor]()
     private var scoreDescriptor: ScoreDescriptor?
     
     private let entityDescriptorMap = TypeDictionary<EntityDescriptor<Solution_>>()
-    private let reversedEntityClassList = [Any.Type]()
+    private var reversedEntityClassList = [Any.Type]()
     // WIP: Check concurrence.
     private let lowestEntityDescriptorMap = TypeDictionary<EntityDescriptor<Solution_>>()
+    
+    // ************************************************************************
+    // Constructors and simple getters/setters
+    // ************************************************************************
+    
+    private init(solutionClass: Solution_.Type, memberAccessorMap: [String:MemberAccessor]?) {
+        self.solutionClass = solutionClass
+        /* WIP: Logger
+        if (solutionClass.getPackage() == null) {
+            LOGGER.warn("The solutionClass ({}) should be in a proper java package.", solutionClass);
+        }
+         */
+        self.memberAccessorFactory = MemberAccessorFactory(memberAccessorMap: memberAccessorMap)
+    }
+    
+    public func addEntityDescriptor(_ entityDescriptor: EntityDescriptor<Solution_>) {
+        let entityClass = entityDescriptor.entityClass
+        for otherEntityClass in entityDescriptorMap.keys {
+            if MetaTypes.isAssignable(entityClass, from: otherEntityClass) {
+                return illegalArgument(
+                    "An earlier entityClass (" + String(describing: otherEntityClass) +
+                        ") should not be a subclass of a later entityClass ("
+                        + String(describing: entityClass)
+                        + "). Switch their declaration so superclasses are defined earlier."
+                )
+            }
+        }
+        entityDescriptorMap[entityClass] = entityDescriptor
+        reversedEntityClassList.insert(entityClass, at: 0)
+        lowestEntityDescriptorMap[entityClass] = entityDescriptor
+    }
+    
+    public func processAnnotations(descriptorPolicy: DescriptorPolicy, entityClassList: [Any.Type]) {
+        // WIP: Implement
+    }
+    
+    private func afterAnnotationsProcessed(_ descriptorPolicy: DescriptorPolicy) {
+        // WIP: Implement
+    }
     
     /**
      * @param solution never null

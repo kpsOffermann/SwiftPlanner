@@ -22,15 +22,22 @@ public class TypeDictionary<Value> {
     
     public typealias Key = Any.Type
     
-    private var dictionary = [ObjectIdentifier:Value]()
+    private var types = [ObjectIdentifier:Any.Type]()
+    
+    private var values = [ObjectIdentifier:Value]()
     
     public subscript(key: Key) -> Value? {
         get {
-            return dictionary[ObjectIdentifier(key)]
+            return values[ObjectIdentifier(key)]
         }
         set {
-            dictionary[ObjectIdentifier(key)] = newValue
+            types[ObjectIdentifier(key)] = key
+            values[ObjectIdentifier(key)] = newValue
         }
+    }
+    
+    public var keys: [Any.Type] {
+        types.map({ $0.value })
     }
     
 }

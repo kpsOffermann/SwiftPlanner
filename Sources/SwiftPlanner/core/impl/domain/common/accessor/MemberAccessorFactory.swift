@@ -28,4 +28,17 @@
 
 public final class MemberAccessorFactory {
     
+    private let memberAccessorCache: [String:MemberAccessor]
+    
+    /**
+     * Prefills the member accessor cache.
+     *
+     * @param memberAccessorMap key is the fully qualified member name
+     */
+    public init(memberAccessorMap: [String:MemberAccessor]?) {
+        // The MemberAccessorFactory may be accessed, and this cache both read and updated, by multiple threads.
+        // WIP: use concurrent dictionary
+        self.memberAccessorCache = memberAccessorMap ?? [String:MemberAccessor]()
+    }
+    
 }
