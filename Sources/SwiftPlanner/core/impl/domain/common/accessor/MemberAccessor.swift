@@ -25,8 +25,11 @@
  */
 
 // WIP: currently contains only methods that are used somewhere else
+/* WIP: requires Annotation for
+        getAnnotation
+ */
 
-public protocol MemberAccessor {
+public protocol MemberAccessor : AnyObject {
     
     func getName() -> String
     
@@ -35,5 +38,40 @@ public protocol MemberAccessor {
     func executeGetter(_ bean: Any) -> Any?
     
     func executeSetter(bean: Any, value: Any) // WIP: check whether nil is possible for value
+    
+    /**
+     * As defined in {@link AnnotatedElement#getAnnotation(Class)}.
+     */
+    func getAnnotation<T/* : Annotation*/>(_ annotationClass: T.Type) -> T
+    
+}
+
+public extension Set where Element == HashWrappedMemberAccessor {
+    
+    mutating func insert(_ element: MemberAccessor) {
+        insert(HashWrappedMemberAccessor(element))
+    }
+    
+    func contains(_ element: MemberAccessor) -> Bool {
+        return contains(HashWrappedMemberAccessor(element))
+    }
+    
+}
+
+public class HashWrappedMemberAccessor : Equatable, Hashable {
+    
+    let accessor: MemberAccessor
+    
+    public init(_ accessor: MemberAccessor) {
+        self.accessor = accessor
+    }
+    
+    public static func == (lhs: HashWrappedMemberAccessor, rhs: HashWrappedMemberAccessor) -> Bool {
+        return lhs.accessor === rhs.accessor
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(ObjectIdentifier(accessor))
+    }
     
 }
