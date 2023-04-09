@@ -17,7 +17,7 @@
 
 import Foundation
 
-extension Array : CollectionWithRemoveAtIndex {}
+extension Array : CollectionWithRemoveAtIndex, Overflowable {}
 
 extension Array {
     

@@ -37,6 +37,9 @@ public class EntityDescriptor<Solution_> {
     // Caches the inherited, declared and descending movable filters (including @PlanningPin filters) as a composite filter
     private var effectiveMovableEntitySelectionFilter: (any SelectionFilter<Solution_, Any>)?
     
+    // Caches the inherited and declared variable descriptors
+    private var effectiveGenuineVariableDescriptorMap: [String:GenuineVariableDescriptor<Solution_>]
+    
     // ************************************************************************
     // Constructors and simple getters/setters
     // ************************************************************************
@@ -52,6 +55,16 @@ public class EntityDescriptor<Solution_> {
 
     public func processAnnotations(_ descriptorPolicy: DescriptorPolicy) {
         // WIP: Implement
+    }
+    
+    // ************************************************************************
+    // Worker methods
+    // ************************************************************************
+    
+    public func getGenuineVariableDescriptor(
+            _ variableName: String
+    ) -> GenuineVariableDescriptor<Solution_>? {
+        return effectiveGenuineVariableDescriptorMap[variableName]
     }
     
     public func isMovable(scoreDirector: any ScoreDirector<Solution_>, entity: Any) -> Bool {
