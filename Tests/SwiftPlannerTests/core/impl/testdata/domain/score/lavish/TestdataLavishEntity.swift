@@ -47,8 +47,8 @@ public class TestdataLavishEntity : TestdataObject {
     }
 
     public var entityGroup: TestdataLavishEntityGroup
-    // WIP: @PlanningVariable(valueRangeProviderRefs = "valueRange")
-    public private(set) var value: TestdataLavishValue?
+    @PlanningVariable(valueRangeProviderRefs: "valueRange")
+    public private(set) var value: TestdataLavishValue? = nil
 
     public var stringProperty = ""
     public var integerProperty = 1

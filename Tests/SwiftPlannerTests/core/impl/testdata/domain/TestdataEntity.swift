@@ -40,10 +40,8 @@ public class TestdataEntity : TestdataObject {
         return buildEntityDescriptor().getGenuineVariableDescriptor("value")
     }
 
-    /* WIP: annotations
-     @PlanningVariable(valueRangeProviderRefs = "valueRange")
-     */
-    public var value: TestdataValue?
+    @PlanningVariable(valueRangeProviderRefs: "valueRange")
+    public var value: TestdataValue? = nil
 
     public override init() {
         super.init()
