@@ -24,15 +24,12 @@
          limited to) translating the original file to Swift.
  */
 
-/* WIP: requires annotations for
-        value
- */
 // WIP: BigInteger, BigDecimal
 
 @testable import SwiftPlanner
 
-// WIP: @PlanningEntity
-public class TestdataLavishEntity : TestdataObject {
+// @PlanningEntity implemented by conformance
+public class TestdataLavishEntity : TestdataObject, PlanningEntity {
     
     public static let VALUE_FIELD = "value"
 

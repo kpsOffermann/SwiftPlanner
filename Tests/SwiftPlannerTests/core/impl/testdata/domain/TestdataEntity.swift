@@ -26,8 +26,8 @@
 
 @testable import SwiftPlanner
 
-/// WIP: @PlanningEntity
-public class TestdataEntity : TestdataObject {
+// @PlanningEntity implemented by conformance
+public class TestdataEntity : TestdataObject, PlanningEntity {
 
     public static let VALUE_FIELD = "value"
 
