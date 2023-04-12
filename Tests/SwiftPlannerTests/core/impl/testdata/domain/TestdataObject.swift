@@ -24,13 +24,13 @@
          limited to) translating the original file to Swift.
  */
 
-import SwiftPlanner
+@testable import SwiftPlanner
 
 // WIP: Inherit from CodeAssertable
 
 public class TestdataObject : JavaStringConvertible {
 
-    // WIP: @PlanningId
+    @PlanningId
     var code: String = ""
 
     public init() {}

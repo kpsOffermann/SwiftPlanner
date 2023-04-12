@@ -37,7 +37,9 @@ protocol PlanningVariableAnnotation {}
  */
 // WIP: @Target({ METHOD, FIELD })
 // WIP: @Retention(RUNTIME)
-@propertyWrapper final class PlanningVariable<Value> : PlanningVariableAnnotation {
+@propertyWrapper final class PlanningVariable<
+        Value
+> : PlanningVariableAnnotation, PropertyAnnotation {
     
     var wrappedValue: Value
 

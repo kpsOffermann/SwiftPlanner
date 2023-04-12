@@ -25,47 +25,32 @@
  */
 
 /* WIP: requires @Target, requires @Retention for
-        class annotations
- */
+    class annotations
+*/
 
-/* WIP: Check mirror annotation lookup for multiple (nested?) annotations,
-        e. g. TestdataLavishSolution.valueList
- */
-
-protocol ValueRangeProviderAnnotation {
-    
-    var id: String { get }
-    
-}
+protocol PlanningIdAnnotation {}
 
 /**
- * Provides the planning values that can be used for a {@link PlanningVariable}.
+ * Specifies that a bean property (or a field) is the id to match
+ * when {@link ScoreDirector#lookUpWorkingObject(Object) locating}
+ * an externalObject (often from another {@link Thread} or JVM).
+ * Used during {@link Move} rebasing and in a {@link ProblemChange}.
  * <p>
- * This is specified on a getter of a java bean property (or directly on a field)
- * which returns a {@link Collection} or {@link ValueRange}.
- * A {@link Collection} is implicitly converted to a {@link ValueRange}.
+ * It is specified on a getter of a java bean property (or directly on a field) of a {@link PlanningEntity} class,
+ * {@link ValueRangeProvider planning value} class or any {@link ProblemFactCollectionProperty problem fact} class.
+ * <p>
+ * The return type can be any {@link Comparable} type which overrides {@link Object#equals(Object)} and
+ * {@link Object#hashCode()}, and is usually {@link Long} or {@link String}.
+ * It must never return a null instance.
  */
 // WIP: @Target({ METHOD, FIELD })
 // WIP: @Retention(RUNTIME)
-
-@propertyWrapper final class ValueRangeProvider<
-        Value
-> : ValueRangeProviderAnnotation, PropertyAnnotation {
-    
+@propertyWrapper final class PlanningId<Value> : PlanningIdAnnotation, PropertyAnnotation {
+        
     var wrappedValue: Value
-
-    /**
-     * Used by {@link PlanningVariable#valueRangeProviderRefs()}
-     * to map a {@link PlanningVariable} to a {@link ValueRangeProvider}.
-     * If not provided, an attempt will be made to find a matching {@link PlanningVariable} without a ref.
-     *
-     * @return if provided, must be unique across a {@link SolverFactory}
-     */
-    var id: String
     
-    init(wrappedValue: Value, id: String = "") {
+    init(wrappedValue: Value) {
         self.wrappedValue = wrappedValue
-        self.id = id
     }
-
+    
 }
