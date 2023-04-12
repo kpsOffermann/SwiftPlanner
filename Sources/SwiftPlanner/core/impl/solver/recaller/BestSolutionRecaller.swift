@@ -32,7 +32,7 @@ import Foundation
  * @param <Solution_> the solution type, the class with the {@link PlanningSolution} annotation
  */
 public class BestSolutionRecaller<
-        Solution_,
+        Solution_ : PlanningSolution,
         Score_ : Score,
         Listener_ : SolverEventListener<Solution_>
 > : PhaseLifecycleListenerAdapter<Solution_, Score_> {
@@ -193,7 +193,7 @@ public class BestSolutionRecaller<
 
     private func updateBestSolutionWithoutFiring(_ solverScope: SolverScope<Solution_, Score_>) {
         let newBestSolution = solverScope.getScoreDirector().cloneWorkingSolution()
-        guard let newBestScore = solverScope.getSolutionDescriptor().getScore(newBestSolution) as? Score_ else {
+        guard let newBestScore = solverScope.getSolutionDescriptor().getScore(newBestSolution) else {
             return illegalState("score of solver scope's solution descriptor is uninitialized")
         }
         updateBestSolutionWithoutFiring(

@@ -30,7 +30,7 @@ import Foundation
 // WIP: Logger (isSolverTerminated)
 
 public typealias ProblemChangeAdapter<
-        Solution_,
+        Solution_ : PlanningSolution,
         Score_ : Score
 > = (SolverScope<Solution_, Score_>) -> Void
 
@@ -40,7 +40,7 @@ public typealias ProblemChangeAdapter<
  */
 @available(macOS 10.15.0, *)
 public class BasicPlumbingTermination<
-        Solution_,
+        Solution_ : PlanningSolution,
         Score_ : Score
 > : PhaseLifecycleListenerAdapter<Solution_, Score_>, Termination, JavaStringConvertible {
     

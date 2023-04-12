@@ -30,7 +30,7 @@
  * @param <Solution_> the solution type, the class with the {@link PlanningSolution} annotation
  */
 public /*abstract*/ class PhaseLifecycleListenerAdapter<
-        Solution_,
+        Solution_ : PlanningSolution,
         Score_ : Score
 > : SolverLifecycleListenerAdapter<Solution_, Score_>, PhaseLifecycleListener {
 

@@ -32,7 +32,10 @@ import Foundation
 /**
  * @param <Solution_> the solution type, the class with the {@link PlanningSolution} annotation
  */
-public /*abstract*/ class AbstractPhaseScope<Solution_, Score_ : Score> : JavaStringConvertible {
+public /*abstract*/ class AbstractPhaseScope<
+        Solution_ : PlanningSolution,
+        Score_ : Score
+> : JavaStringConvertible {
 
     // WIP: Logger
     //protected final transient Logger logger = LoggerFactory.getLogger(getClass());

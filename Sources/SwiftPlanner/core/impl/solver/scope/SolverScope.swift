@@ -37,7 +37,7 @@ import Foundation
 /**
  * @param <Solution_> the solution type, the class with the {@link PlanningSolution} annotation
  */
-public class SolverScope<Solution_, Score_ : Score> {
+public class SolverScope<Solution_ : PlanningSolution, Score_ : Score> {
     
     var solverMetricSet: Set<SolverMetric<Solution_>> = []
     var monitoringTags: Tags

@@ -38,7 +38,10 @@ import Foundation
  * @see AbstractSolver
  */
 @available(macOS 13.0.0, *)
-public class DefaultSolver<Solution_, Score_ : Score> : AbstractSolver<Solution_, Score_> {
+public class DefaultSolver<
+        Solution_ : PlanningSolution,
+        Score_ : Score
+> : AbstractSolver<Solution_, Score_> {
 
     public internal(set) var environmentMode: EnvironmentMode
         

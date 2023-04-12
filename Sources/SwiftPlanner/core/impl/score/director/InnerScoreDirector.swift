@@ -33,7 +33,6 @@
  */
 public protocol InnerScoreDirector<Solution_, Score_> : ScoreDirector/*, AutoCloseable*/ {
 
-    associatedtype Solution_
     associatedtype Score_ : Score
     
     /**

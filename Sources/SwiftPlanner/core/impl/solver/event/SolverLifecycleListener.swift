@@ -33,7 +33,7 @@ public typealias Exception = Any
  */
 public protocol SolverLifecycleListener<Solution_, Score_> : EventListener {
     
-    associatedtype Solution_
+    associatedtype Solution_ : PlanningSolution
     
     associatedtype Score_ : Score
 
@@ -61,7 +61,7 @@ extension SolverLifecycleListener {
 
 @available(macOS 13.0.0, *)
 public class WrappedSolverLifecycleListener<
-        Solution_,
+        Solution_ : PlanningSolution,
         Score_ : Score
 > : SolverLifecycleListener, Equatable {
     

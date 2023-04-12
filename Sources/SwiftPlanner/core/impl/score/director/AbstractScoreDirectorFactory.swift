@@ -26,7 +26,7 @@
 
 // WIP: Logger
 
-public typealias AbstractScoreDirectorFactory<Solution_, Score_ : Score>
+public typealias AbstractScoreDirectorFactory<Solution_ : PlanningSolution, Score_ : Score>
     = AbstractScoreDirectorFactoryClass<Solution_, Score_> & InnerScoreDirectorFactory
 
 /**
@@ -37,7 +37,7 @@ public typealias AbstractScoreDirectorFactory<Solution_, Score_ : Score>
  * @see ScoreDirectorFactory
  */
 public /*abstract*/ class AbstractScoreDirectorFactoryClass<
-        Solution_,
+        Solution_ : PlanningSolution,
         Score_ : Score
 > : AbstractScoreDirectorFactoryDependent {
 

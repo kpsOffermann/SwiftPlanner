@@ -31,7 +31,7 @@
  */
 public protocol ScoreDirectorFactory<Solution_> {
     
-    associatedtype Solution_
+    associatedtype Solution_ : PlanningSolution
 
     /**
      * Creates a new {@link ScoreDirector} instance.

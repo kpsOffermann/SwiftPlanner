@@ -32,7 +32,7 @@
  */
 public protocol ScoreDirector<Solution_> {
 
-    associatedtype Solution_
+    associatedtype Solution_ : PlanningSolution
     
     /**
      * The {@link PlanningSolution} that is used to calculate the {@link Score}.

@@ -30,7 +30,6 @@
  */
 public protocol InnerScoreDirectorFactory<Solution_, Score_> : ScoreDirectorFactory {
     
-    associatedtype Solution_
     associatedtype Score_ : Score
 
     /**

@@ -42,7 +42,7 @@ public protocol PhaseLifecycleListener<Solution_, Score_> : SolverLifecycleListe
 
 @available(macOS 13.0.0, *)
 public class WrappedPhaseLifecycleListener<
-        Solution_,
+        Solution_ : PlanningSolution,
         Score_ : Score
 > : WrappedSolverLifecycleListener<Solution_, Score_>, PhaseLifecycleListener {
     

@@ -39,7 +39,7 @@
 
 fileprivate var nullEntityDescriptor_Store = BiTypeDictionary<Any>()
 
-public class SolutionDescriptor<Solution_, Score_ : Score> {
+public class SolutionDescriptor<Solution_ : PlanningSolution, Score_ : Score> {
     
     // ************************************************************************
     // Helper method to replicate generic let

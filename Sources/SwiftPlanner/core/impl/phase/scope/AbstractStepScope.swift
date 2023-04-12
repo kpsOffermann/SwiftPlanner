@@ -27,7 +27,10 @@
 /**
  * @param <Solution_> the solution type, the class with the {@link PlanningSolution} annotation
  */
-public /*abstract*/ class AbstractStepScope<Solution_, Score_ : Score> : JavaStringConvertible {
+public /*abstract*/ class AbstractStepScope<
+        Solution_ : PlanningSolution,
+        Score_ : Score
+> : JavaStringConvertible {
 
     public let stepIndex: Int
 

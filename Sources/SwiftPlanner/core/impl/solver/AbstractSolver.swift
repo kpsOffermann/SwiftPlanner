@@ -27,7 +27,10 @@
 // WIP: Logger
 
 @available(macOS 13.0.0, *)
-public typealias AbstractSolver<Solution_, Score_ : Score> = AbstractSolverClass<Solution_, Score_> & Solver
+public typealias AbstractSolver<
+        Solution_ : PlanningSolution,
+        Score_ : Score
+> = AbstractSolverClass<Solution_, Score_> & Solver
 
 /**
  * Common code between {@link DefaultSolver} and child solvers (such as {@link PartitionSolver}).
@@ -40,7 +43,7 @@ public typealias AbstractSolver<Solution_, Score_ : Score> = AbstractSolverClass
  * @see DefaultSolver
  */
 @available(macOS 13.0.0, *)
-public /*abstract*/ class AbstractSolverClass<Solution_, Score_ : Score> /*: Solver*/ {
+public /*abstract*/ class AbstractSolverClass<Solution_ : PlanningSolution, Score_ : Score> /*: Solver*/ {
 
     // WIP: Logger
     //protected final transient Logger logger = LoggerFactory.getLogger(getClass());

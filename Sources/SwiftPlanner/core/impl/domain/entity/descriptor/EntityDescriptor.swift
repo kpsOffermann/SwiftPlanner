@@ -30,7 +30,7 @@
         processAnnotations
  */
 
-public class EntityDescriptor<Solution_, Score_ : Score> {
+public class EntityDescriptor<Solution_ : PlanningSolution, Score_ : Score> {
     
     public let entityClass: Any.Type
     

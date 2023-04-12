@@ -24,7 +24,7 @@
          limited to) translating the original file to Swift.
  */
 
-public final class DefaultProblemChangeDirector<Solution_> : ProblemChangeDirector {
+public final class DefaultProblemChangeDirector<Solution_ : PlanningSolution> : ProblemChangeDirector {
 
     private let scoreDirector: any InnerScoreDirector<Solution_, any Score>
 

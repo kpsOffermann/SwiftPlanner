@@ -33,7 +33,7 @@
  */
 public protocol PinningFilter<Solution_, Entity_> {
 
-    associatedtype Solution_
+    associatedtype Solution_ : PlanningSolution
     
     associatedtype Entity_
     
