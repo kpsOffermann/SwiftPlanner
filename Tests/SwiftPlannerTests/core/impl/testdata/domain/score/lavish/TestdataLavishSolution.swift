@@ -100,7 +100,7 @@ public class TestdataLavishSolution : TestdataObject {
     public private(set) var extraList: [TestdataLavishExtra]?
     @ProblemFactCollectionProperty
     public private(set) var entityGroupList: [TestdataLavishEntityGroup]?
-    // WIP: @PlanningEntityCollectionProperty
+    @PlanningEntityCollectionProperty
     public private(set) var entityList: [TestdataLavishEntity]?
 
     @PlanningScore

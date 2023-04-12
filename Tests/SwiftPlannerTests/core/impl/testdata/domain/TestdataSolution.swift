@@ -56,10 +56,8 @@ public class TestdataSolution : TestdataObject {
     @ValueRangeProvider(id: "valueRange")
     @ProblemFactCollectionProperty
     private var valueList: [TestdataValue]? = nil
-    /* WIP: annotations
     @PlanningEntityCollectionProperty
-     */
-    public var entityList: [TestdataEntity]?
+    public var entityList: [TestdataEntity]? = nil
 
     @PlanningScore
     public var score: SimpleScore? = nil
