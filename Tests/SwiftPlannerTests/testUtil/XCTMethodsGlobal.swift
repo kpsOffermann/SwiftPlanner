@@ -18,6 +18,15 @@
 import XCTest
 import SwiftPlanner
 
+func XCTAssertEqual<E : Equatable>(
+        _ actual: [E],
+        _ expected: E...,
+        file: StaticString = #file,
+        line: UInt = #line
+) {
+    XCTAssertEqual(actual, expected, file: file, line: line)
+}
+
 func XCTAssertEqualByComparing<C : Comparable>(
         _ actual: C,
         _ expected: C,

@@ -24,6 +24,8 @@
          limited to) translating the original file to Swift.
  */
 
+// WIP: currently contains only methods that are used somewhere else
+
 import XCTest
 @testable import SwiftPlanner
 
@@ -38,56 +40,98 @@ public enum PlannerAssert {
     // Missing JUnit methods
     // ************************************************************************
 
-    public static func assertObjectsAreEqual<C : Comparable & Hashable>(_ objects: C...) {
+    public static func assertObjectsAreEqual<C : Comparable & Hashable>(
+            _ objects: C...,
+            file: StaticString = #file,
+            line: UInt = #line
+    ) {
         for i in 0 ..< objects.count {
             for j in (i + 1) ..< objects.count {
-                XCTAssertEqual(objects[j], objects[i])
-                XCTAssertSameHash(objects[j], objects[i])
-                XCTAssertEqualByComparing(objects[i], objects[j])
+                XCTAssertEqual(objects[j], objects[i], file: file, line: line)
+                XCTAssertSameHash(objects[j], objects[i], file: file, line: line)
+                XCTAssertEqualByComparing(objects[i], objects[j], file: file, line: line)
             }
         }
     }
     
-    public static func assertObjectsAreEqual<H : Hashable>(_ objects: H...) {
-        assertObjectsAreEqualWithoutComparing(objects)
+    public static func assertObjectsAreEqual<H : Hashable>(
+            _ objects: H...,
+            file: StaticString = #file,
+            line: UInt = #line
+    ) {
+        assertObjectsAreEqualWithoutComparing(objects, file: file, line: line)
     }
 
-    public static func assertObjectsAreEqualWithoutComparing<H : Hashable>(_ objects: [H]) {
+    public static func assertObjectsAreEqualWithoutComparing<H : Hashable>(
+            _ objects: [H],
+            file: StaticString = #file,
+            line: UInt = #line
+    ) {
         for i in 0 ..< objects.count {
             for j in (i + 1) ..< objects.count {
-                XCTAssertEqual(objects[j], objects[i])
-                XCTAssertSameHash(objects[j], objects[i])
+                XCTAssertEqual(objects[j], objects[i], file: file, line: line)
+                XCTAssertSameHash(objects[j], objects[i], file: file, line: line)
             }
         }
     }
 
-    public static func assertObjectsAreNotEqual<C : Comparable>(_ objects: C...) {
+    public static func assertObjectsAreNotEqual<C : Comparable>(
+            _ objects: C...,
+            file: StaticString = #file,
+            line: UInt = #line
+    ) {
         for i in 0 ..< objects.count {
             for j in (i + 1) ..< objects.count {
-                XCTAssertNotEqual(objects[j], objects[i])
-                XCTAssertNotEqualByComparing(objects[i], objects[j])
+                XCTAssertNotEqual(objects[j], objects[i], file: file, line: line)
+                XCTAssertNotEqualByComparing(objects[i], objects[j], file: file, line: line)
             }
         }
     }
     
-    public static func assertObjectsAreNotEqual<E : Equatable>(_ objects: E...) {
-        assertObjectsAreNotEqualWithoutComparing(objects)
+    public static func assertObjectsAreNotEqual<E : Equatable>(
+            _ objects: E...,
+            file: StaticString = #file,
+            line: UInt = #line
+    ) {
+        assertObjectsAreNotEqualWithoutComparing(objects, file: file, line: line)
     }
     
-    public static func assertObjectsAreNotEqualWithoutComparing<E : Equatable>(_ objects: [E]) {
+    public static func assertObjectsAreNotEqualWithoutComparing<E : Equatable>(
+            _ objects: [E],
+            file: StaticString = #file,
+            line: UInt = #line
+    ) {
         for i in 0 ..< objects.count {
             for j in (i + 1) ..< objects.count {
-                XCTAssertNotEqual(objects[j], objects[i])
+                XCTAssertNotEqual(objects[j], objects[i], file: file, line: line)
             }
         }
     }
     
-    public static func assertCompareToOrder<C : SPComparable>(_ objects: C...) {
-        assertCompareToOrder(by: C.compare, objects)
+    public static func assertCompareToOrder<C : SPComparable>(
+            _ objects: C...,
+            file: StaticString = #file,
+            line: UInt = #line
+    ) {
+        assertCompareToOrder(by: C.compare, objects, file: file, line: line)
     }
     
-    public static func assertCompareToOrder<T>(by comparator: SPComparator<T>, _ objects: [T]) {
-        XCTAssertIsSorted(objects, by: comparator)
+    public static func assertCompareToOrder<T>(
+            by comparator: SPComparator<T>,
+            _ objects: [T],
+            file: StaticString = #file,
+            line: UInt = #line
+    ) {
+        XCTAssertIsSorted(objects, by: comparator, file: file, line: line)
+    }
+    
+    public static func assertAllCodesOfCollection<T: TestdataObject, C : Collection<T>>(
+            _ collection: C,
+            codes: String...,
+            file: StaticString = #file,
+            line: UInt = #line
+    ) {
+        XCTAssertEqual(collection.map({ $0.code }), codes, file: file, line: line)
     }
 
 }

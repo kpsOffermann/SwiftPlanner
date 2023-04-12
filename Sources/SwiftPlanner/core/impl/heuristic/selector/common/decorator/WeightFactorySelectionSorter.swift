@@ -32,14 +32,14 @@
  * @param <Solution_> the solution type, the class with the {@link PlanningSolution} annotation
  * @param <T> the selection type
  */
-public final class WeightFactorySelectionSorter<Solution_, T : Hashable & SPComparable> : SelectionSorter {
+public final class WeightFactorySelectionSorter<Solution_, T : Hashable> : SelectionSorter {
 
     private let selectionSorterWeightFactory: any SelectionSorterWeightFactory<Solution_, T>
     private let selectionSorterOrder: SelectionSorterOrder
 
     public init(
-            selectionSorterWeightFactory: any SelectionSorterWeightFactory<Solution_, T>,
-            selectionSorterOrder: SelectionSorterOrder
+            _ selectionSorterWeightFactory: any SelectionSorterWeightFactory<Solution_, T>,
+            order selectionSorterOrder: SelectionSorterOrder
     ) {
         self.selectionSorterWeightFactory = selectionSorterWeightFactory
         self.selectionSorterOrder = selectionSorterOrder
