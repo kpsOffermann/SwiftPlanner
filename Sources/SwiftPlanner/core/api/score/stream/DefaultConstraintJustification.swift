@@ -28,27 +28,27 @@
 
 import Foundation
 
+public typealias Fact = CustomStringConvertible
+
 /**
  * Default implementation of {@link ConstraintJustification}, returned by {@link ConstraintMatch#getJustification()}
  * unless the user defined a custom justification mapping.
  */
 public final class DefaultConstraintJustification : ConstraintJustification, SPComparable, JavaStringConvertible {
     
-    public typealias Object = CustomStringConvertible
-    
-    public static func of(impact: some Score, facts: Object...) -> DefaultConstraintJustification {
+    public static func of(impact: some Score, facts: Fact...) -> DefaultConstraintJustification {
         return DefaultConstraintJustification(impact: impact, facts: facts)
     }
 
-    public static func of(_ impact: some Score, facts: [Object]) -> DefaultConstraintJustification {
+    public static func of(_ impact: some Score, facts: [Fact]) -> DefaultConstraintJustification {
         return DefaultConstraintJustification(impact: impact, facts: facts)
     }
 
     private let impact: any Score
-    private let facts: [Object]
+    private let facts: [Fact]
     private var classAndIdPlanningComparator: SPComparator<Any>? = nil
 
-    private init(impact: some Score, facts: [Object]) {
+    private init(impact: some Score, facts: [Fact]) {
         self.impact = impact
         self.facts = facts
     }
@@ -57,7 +57,7 @@ public final class DefaultConstraintJustification : ConstraintJustification, SPC
         return impact
     }
 
-    public func getFacts() -> [Object] {
+    public func getFacts() -> [Fact] {
         return facts
     }
 

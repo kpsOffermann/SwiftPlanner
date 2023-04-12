@@ -36,5 +36,9 @@ enum MetaTypes {
     static func isAssignable(_ superType: Any.Type, from subType: Any.Type) -> Bool {
         return false // WIP
     }
+    
+    static func name(_ type: Any.Type) -> String {
+        return String(describing: type)
+    }
 
 }

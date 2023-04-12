@@ -17,24 +17,10 @@
 
 import Foundation
 
-public extension Comparable where Self : SPComparable {
-    
-    func compare(to other: Self) -> ComparisonResult {
-        if self == other {
-            return .orderedSame
-        }
-        return self < other ? .orderedAscending : .orderedDescending
-    }
-    
-}
-
-public extension Comparable {
-    
-    func compare(to any: Any) -> ComparisonResult? {
-        guard let other = any as? Self else {
-            return nil
-        }
-        return compare(to: other)
-    }
-    
+public protocol ComparatorSource<T> {
+   
+   associatedtype T
+   
+   func compare(_ lhs: T, _ rhs: T) -> ComparisonResult
+   
 }
