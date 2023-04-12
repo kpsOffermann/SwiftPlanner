@@ -63,10 +63,8 @@ public class TestdataSolution : TestdataObject {
      */
     public var entityList: [TestdataEntity]?
 
-    /* WIP: annotations
-     @PlanningScore
-     */
-    public var score: SimpleScore?
+    @PlanningScore
+    public var score: SimpleScore? = nil
 
     public override init() {
         super.init()

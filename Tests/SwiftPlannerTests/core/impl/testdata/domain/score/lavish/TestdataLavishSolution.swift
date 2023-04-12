@@ -102,7 +102,7 @@ public class TestdataLavishSolution : TestdataObject {
     // WIP: @PlanningEntityCollectionProperty
     public private(set) var entityList: [TestdataLavishEntity]?
 
-    // WIP: @PlanningScore
+    @PlanningScore
     public private(set) var score: SimpleScore?
 
     public override init() {
