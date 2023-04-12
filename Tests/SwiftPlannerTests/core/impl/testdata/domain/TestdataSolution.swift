@@ -53,11 +53,9 @@ public class TestdataSolution : TestdataObject {
         return solution
     }
 
-    /* WIP: annotations
-    @ValueRangeProvider(id = "valueRange")
+    @ValueRangeProvider(id: "valueRange")
     @ProblemFactCollectionProperty
-     */
-    private var valueList: [TestdataValue]?
+    private var valueList: [TestdataValue]? = nil
     /* WIP: annotations
     @PlanningEntityCollectionProperty
      */

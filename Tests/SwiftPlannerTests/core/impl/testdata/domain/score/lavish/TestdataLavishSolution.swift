@@ -90,14 +90,15 @@ public class TestdataLavishSolution : TestdataObject {
         return solution
     }
 
-    // WIP: @ProblemFactCollectionProperty
+    @ProblemFactCollectionProperty
     public private(set) var valueGroupList: [TestdataLavishValueGroup]?
-    // WIP: @ValueRangeProvider(id = "valueRange")
-    // WIP: @ProblemFactCollectionProperty
-    public private(set) var valueList: [TestdataLavishValue]?
-    // WIP: @ProblemFactCollectionProperty
+    // WIP: Check mirror annotation lookup for multiple (nested?) annotations
+    @ValueRangeProvider(id: "valueRange")
+    @ProblemFactCollectionProperty
+    public private(set) var valueList: [TestdataLavishValue]? = nil
+    @ProblemFactCollectionProperty
     public private(set) var extraList: [TestdataLavishExtra]?
-    // WIP: @ProblemFactCollectionProperty
+    @ProblemFactCollectionProperty
     public private(set) var entityGroupList: [TestdataLavishEntityGroup]?
     // WIP: @PlanningEntityCollectionProperty
     public private(set) var entityList: [TestdataLavishEntity]?
