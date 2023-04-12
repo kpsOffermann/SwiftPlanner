@@ -30,7 +30,7 @@
         processAnnotations
  */
 
-public class EntityDescriptor<Solution_> {
+public class EntityDescriptor<Solution_, Score_ : Score> {
     
     public let entityClass: Any.Type
     
@@ -44,7 +44,10 @@ public class EntityDescriptor<Solution_> {
     // Constructors and simple getters/setters
     // ************************************************************************
     
-    public init(_ solutionDescriptor: SolutionDescriptor<Solution_>?, _ entityClass: Any.Type) {
+    public init(
+            _ solutionDescriptor: SolutionDescriptor<Solution_, Score_>?,
+            _ entityClass: Any.Type
+    ) {
         // WIP: Implement
         fatalError("not yet implemented")
     }

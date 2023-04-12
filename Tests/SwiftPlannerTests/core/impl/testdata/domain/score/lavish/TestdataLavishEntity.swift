@@ -33,7 +33,8 @@ public class TestdataLavishEntity : TestdataObject, PlanningEntity {
     
     public static let VALUE_FIELD = "value"
 
-    public static func buildEntityDescriptor() -> EntityDescriptor<TestdataLavishSolution> {
+    public static func buildEntityDescriptor(
+    ) -> EntityDescriptor<TestdataLavishSolution, SimpleScore> {
         return TestdataLavishSolution.buildSolutionDescriptor()
                 .findEntityDescriptorOrFail(TestdataLavishEntity.self)
     }
@@ -61,7 +62,11 @@ public class TestdataLavishEntity : TestdataObject, PlanningEntity {
     }
      */
 
-    public init(code: String, entityGroup: TestdataLavishEntityGroup, value: TestdataLavishValue? = nil) {
+    public init(
+            code: String,
+            entityGroup: TestdataLavishEntityGroup,
+            value: TestdataLavishValue? = nil
+    ) {
         self.entityGroup = entityGroup
         self.value = value
         super.init(code: code)

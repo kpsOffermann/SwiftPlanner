@@ -29,8 +29,9 @@
 // @PlanningSolution implemented by conformance
 public class TestdataLavishSolution : TestdataObject, PlanningSolution {
 
-    public static func buildSolutionDescriptor() -> SolutionDescriptor<TestdataLavishSolution> {
-        return SolutionDescriptor<TestdataLavishSolution>.buildSolutionDescriptor(
+    public static func buildSolutionDescriptor(
+    ) -> SolutionDescriptor<TestdataLavishSolution, SimpleScore> {
+        return SolutionDescriptor<TestdataLavishSolution, SimpleScore>.buildSolutionDescriptor(
             TestdataLavishSolution.self,
             entityClasses: TestdataLavishEntity.self
         )

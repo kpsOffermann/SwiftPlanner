@@ -151,7 +151,7 @@ public class SolverScope<Solution_, Score_ : Score> {
         return endingTime?.uptimeNanoseconds
     }
     
-    public func getSolutionDescriptor() -> SolutionDescriptor<Solution_> {
+    public func getSolutionDescriptor() -> SolutionDescriptor<Solution_, Score_> {
         return scoreDirector.getSolutionDescriptor()
     }
 
@@ -282,7 +282,7 @@ public class SolverScope<Solution_, Score_ : Score> {
             return illegalState("bestSolution has to be set before calling this method!")
         }
         // The workingSolution must never be the same instance as the bestSolution.
-        scoreDirector.setWorkingSolution(workingSolution: scoreDirector.cloneSolution(bestSolution))
+        scoreDirector.setWorkingSolution(scoreDirector.cloneSolution(bestSolution))
     }
 
     public func createChildThreadSolverScope(

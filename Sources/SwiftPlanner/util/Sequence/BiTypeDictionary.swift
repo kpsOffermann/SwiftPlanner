@@ -15,12 +15,17 @@
  limitations under the License.
  */
 
-public typealias TypeDictionary<T> = SPDictionary<Any.Type, T>
+public typealias BiTypeDictionary<T> = SPDictionary<(Any.Type, Any.Type), T>
 
-public extension SPDictionary where Key == Any.Type {
+public extension SPDictionary where Key == (Any.Type, Any.Type) {
     
     convenience init() {
-        self.init(hashedBy: { ObjectIdentifier($0).hashValue })
+        self.init(hashedBy: {
+            var hasher = Hasher()
+            hasher.combine(ObjectIdentifier($0))
+            hasher.combine(ObjectIdentifier($1))
+            return hasher.finalize()
+        })
     }
     
 }

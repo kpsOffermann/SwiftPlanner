@@ -33,22 +33,55 @@
  */
 // WIP: reimplement extractMemberCollectionOrArray
 
-public class SolutionDescriptor<Solution_> {
+// ************************************************************************
+// Helper vars to replicate generic let
+// ************************************************************************
+
+fileprivate var nullEntityDescriptor_Store = BiTypeDictionary<Any>()
+
+public class SolutionDescriptor<Solution_, Score_ : Score> {
     
-    // WIP: type argument; WIP: see for alternative of static (in generic class)
-    private let NULL_ENTITY_DESCRIPTOR = EntityDescriptor<Solution_>(nil, SolutionDescriptor.self)
+    // ************************************************************************
+    // Helper method to replicate generic let
+    // ************************************************************************
+    
+    private static func get<Result>(
+            from store: BiTypeDictionary<Any>,
+            orElse initialize: () -> Result
+    ) -> Result {
+        if let result = store[(Solution_.self, Score_.self)] as? Result {
+            return result
+        }
+        let newResult = initialize()
+        store[(Solution_.self, Score_.self)] = newResult
+        return newResult
+    }
+    
+    // ************************************************************************
+    // replicated generic let constants
+    // ************************************************************************
+    
+    private static var NULL_ENTITY_DESCRIPTOR: EntityDescriptor<Solution_, Score_> {
+        return get(from: nullEntityDescriptor_Store, orElse: {
+            EntityDescriptor<Solution_, Score_>(nil, SolutionDescriptor.self)
+        })
+    }
+    
+    // ************************************************************************
+    // main part
+    // ************************************************************************
     
     public static func buildSolutionDescriptor(
             _ solutionClass: Solution_.Type,
             entityClasses: Any.Type...
-    ) -> SolutionDescriptor<Solution_> {
+    ) -> SolutionDescriptor<Solution_, Score_> {
         return buildSolutionDescriptor(solutionClass, entityClassList: entityClasses)
     }
     
     public static func buildSolutionDescriptor(
             _ solutionClass: Solution_.Type,
             entityClassList: [Any.Type]
-    ) -> SolutionDescriptor<Solution_> {
+    ) -> SolutionDescriptor<Solution_, Score_> {
         return buildSolutionDescriptor(
             domainAccessType: .REFLECTION,
             solutionClass: solutionClass,
@@ -64,8 +97,8 @@ public class SolutionDescriptor<Solution_> {
             memberAccessorMap: [String:MemberAccessor]?,
             solutionClonerMap: [String:any SolutionCloner]?,
             entityClassList: [Any.Type]
-    ) -> SolutionDescriptor<Solution_> {
-        let solutionDescriptor = SolutionDescriptor<Solution_>(
+    ) -> SolutionDescriptor<Solution_, Score_> {
+        let solutionDescriptor = SolutionDescriptor<Solution_, Score_>(
             solutionClass: solutionClass,
             memberAccessorMap: memberAccessorMap
         )
@@ -79,7 +112,10 @@ public class SolutionDescriptor<Solution_> {
             entityClassList: entityClassList
         )
         for entityClass in sortedEntityClassList(entityClassList) {
-            let entityDescriptor = EntityDescriptor<Solution_>(solutionDescriptor, entityClass)
+            let entityDescriptor = EntityDescriptor<Solution_, Score_>(
+                solutionDescriptor,
+                entityClass
+            )
             solutionDescriptor.addEntityDescriptor(entityDescriptor)
             entityDescriptor.processAnnotations(descriptorPolicy)
         }
@@ -114,12 +150,12 @@ public class SolutionDescriptor<Solution_> {
     
     private let entityMemberAccessorMap = [String:MemberAccessor]()
     private let entityCollectionMemberAccessorMap = [String:MemberAccessor]()
-    private var scoreDescriptor: ScoreDescriptor?
+    private var scoreDescriptor: ScoreDescriptor<Score_>?
     
-    private let entityDescriptorMap = TypeDictionary<EntityDescriptor<Solution_>>()
+    private let entityDescriptorMap = TypeDictionary<EntityDescriptor<Solution_, Score_>>()
     private var reversedEntityClassList = [Any.Type]()
     // WIP: Check concurrence.
-    private let lowestEntityDescriptorMap = TypeDictionary<EntityDescriptor<Solution_>>()
+    private let lowestEntityDescriptorMap = TypeDictionary<EntityDescriptor<Solution_, Score_>>()
     
     // ************************************************************************
     // Constructors and simple getters/setters
@@ -135,7 +171,7 @@ public class SolutionDescriptor<Solution_> {
         self.memberAccessorFactory = MemberAccessorFactory(memberAccessorMap: memberAccessorMap)
     }
     
-    public func addEntityDescriptor(_ entityDescriptor: EntityDescriptor<Solution_>) {
+    public func addEntityDescriptor(_ entityDescriptor: EntityDescriptor<Solution_, Score_>) {
         let entityClass = entityDescriptor.entityClass
         for otherEntityClass in entityDescriptorMap.keys {
             if MetaTypes.isAssignable(entityClass, from: otherEntityClass) {
@@ -160,6 +196,10 @@ public class SolutionDescriptor<Solution_> {
         // WIP: Implement
     }
     
+    public func getScoreDefinition() -> (any ScoreDefinition<Score_>)? {
+        return scoreDescriptor?.scoreDefinition
+    }
+    
     /**
      * @param solution never null
      * @return {@code >= 0}
@@ -172,7 +212,7 @@ public class SolutionDescriptor<Solution_> {
     }
     
     @available(macOS 13.0.0, *)
-    public func visitAllEntities(solution: Solution_ , visitor: (Any) -> Void) {
+    public func visitAllEntities(solution: Solution_, visitor: (Any) -> Void) {
         visitAllEntities(solution, visitor, collectionVisitor: { $0.forEach(visitor) })
     }
     
@@ -221,7 +261,9 @@ public class SolutionDescriptor<Solution_> {
         // return valueCount;
     }
     
-    public func findEntityDescriptorOrFail(_ entitySubclass: Any.Type) -> EntityDescriptor<Solution_> {
+    public func findEntityDescriptorOrFail(
+            _ entitySubclass: Any.Type
+    ) -> EntityDescriptor<Solution_, Score_> {
         return findEntityDescriptor(entitySubclass)
             ?? illegalArgument(""
             /* WIP: Update error message
@@ -239,7 +281,9 @@ public class SolutionDescriptor<Solution_> {
                 )
     }
     
-    public func findEntityDescriptor(_ entitySubclass: Any.Type) -> EntityDescriptor<Solution_>? {
+    public func findEntityDescriptor(
+            _ entitySubclass: Any.Type
+    ) -> EntityDescriptor<Solution_, Score_>? {
         /*
          * A slightly optimized variant of map.computeIfAbsent(...).
          * computeIfAbsent(...) would require the creation of a capturing lambda every time this method is called,
@@ -247,7 +291,7 @@ public class SolutionDescriptor<Solution_> {
          * This is a micro-optimization, but it is valuable on the hot path.
          */
         let cachedEntityDescriptor = lowestEntityDescriptorMap[entitySubclass]
-        if cachedEntityDescriptor === NULL_ENTITY_DESCRIPTOR { // Cache hit, no descriptor found.
+        if cachedEntityDescriptor === SolutionDescriptor<Solution_, Score_>.NULL_ENTITY_DESCRIPTOR { // Cache hit, no descriptor found.
             return nil
         } else if cachedEntityDescriptor != nil { // Cache hit, descriptor found.
             return cachedEntityDescriptor
@@ -256,7 +300,8 @@ public class SolutionDescriptor<Solution_> {
         let newEntityDescriptor = innerFindEntityDescriptor(entitySubclass)
         if (newEntityDescriptor == nil) {
             // Dummy entity descriptor value, as ConcurrentMap does not allow null values.
-            lowestEntityDescriptorMap[entitySubclass] = NULL_ENTITY_DESCRIPTOR
+            lowestEntityDescriptorMap[entitySubclass]
+                = SolutionDescriptor<Solution_, Score_>.NULL_ENTITY_DESCRIPTOR
             return nil
         } else {
             lowestEntityDescriptorMap[entitySubclass] = newEntityDescriptor
@@ -264,7 +309,9 @@ public class SolutionDescriptor<Solution_> {
         }
     }
     
-    private func innerFindEntityDescriptor(_ entitySubclass: Any.Type) -> EntityDescriptor<Solution_>? {
+    private func innerFindEntityDescriptor(
+            _ entitySubclass: Any.Type
+    ) -> EntityDescriptor<Solution_, Score_>? {
         // Reverse order to find the nearest ancestor
         for entityClass in reversedEntityClassList {
             if MetaTypes.isAssignable(entityClass, from: entitySubclass) {
@@ -346,7 +393,7 @@ public class SolutionDescriptor<Solution_> {
      * @param solution never null
      * @return sometimes null, if the {@link Score} hasn't been calculated yet
      */
-    public func getScore(_ solution: Solution_) -> (any Score)? {
+    public func getScore(_ solution: Solution_) -> Score_? {
         guard let scoreDescriptor = scoreDescriptor else {
             return illegalState("scoreDescriptor is uninitialized!")
         }
@@ -360,7 +407,7 @@ public class SolutionDescriptor<Solution_> {
      * @param score sometimes null, in rare occasions to indicate that the old {@link Score} is stale,
      *        but no new ones has been calculated
      */
-    public func setScore(solution: Solution_, score: any Score) {
+    public func setScore(solution: Solution_, score: Score_) {
         guard let scoreDescriptor = scoreDescriptor else {
             return illegalState("scoreDescriptor is uninitialized!")
         }

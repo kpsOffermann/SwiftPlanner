@@ -29,7 +29,8 @@
 // @PlanningSolution implemented by conformance
 public class TestdataSolution : TestdataObject, PlanningSolution {
 
-    public static func buildSolutionDescriptor() -> SolutionDescriptor<TestdataSolution> {
+    public static func buildSolutionDescriptor(
+    ) -> SolutionDescriptor<TestdataSolution, SimpleScore> {
         return SolutionDescriptor.buildSolutionDescriptor(
             TestdataSolution.self,
             entityClasses: TestdataEntity.self

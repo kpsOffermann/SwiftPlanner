@@ -26,21 +26,24 @@
 
 // WIP: currently contains only methods that are used somewhere else
 
-public class ScoreDescriptor {
+public class ScoreDescriptor<Score_ : Score> {
 
     private let scoreMemberAccessor: MemberAccessor
-    private let scoreDefinition: any ScoreDefinition
+    public let scoreDefinition: any ScoreDefinition<Score_>
 
-    private init(scoreMemberAccessor: MemberAccessor, scoreDefinition: any ScoreDefinition) {
+    private init(
+            scoreMemberAccessor: MemberAccessor,
+            scoreDefinition: any ScoreDefinition<Score_>
+    ) {
         self.scoreMemberAccessor = scoreMemberAccessor
         self.scoreDefinition = scoreDefinition
     }
     
-    public func getScore(_ solution: Any) -> (any Score)? {
-        return scoreMemberAccessor.executeGetter(solution) as? (any Score)
+    public func getScore(_ solution: Any) -> Score_? {
+        return scoreMemberAccessor.executeGetter(solution) as? Score_
     }
 
-    public func setScore(solution: Any, score: any Score) {
+    public func setScore(solution: Any, score: Score_) {
         scoreMemberAccessor.executeSetter(bean: solution, value: score)
     }
     

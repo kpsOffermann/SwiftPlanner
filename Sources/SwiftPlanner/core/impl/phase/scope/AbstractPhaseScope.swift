@@ -91,7 +91,7 @@ public /*abstract*/ class AbstractPhaseScope<Solution_, Score_ : Score> : JavaSt
         endingScoreCalculationCount = getScoreDirector().getCalculationCount()
     }
 
-    public func getSolutionDescriptor() -> SolutionDescriptor<Solution_> {
+    public func getSolutionDescriptor() -> SolutionDescriptor<Solution_, Score_> {
         return solverScope.getSolutionDescriptor()
     }
 

@@ -36,7 +36,7 @@ public protocol InnerScoreDirectorFactory<Solution_, Score_> : ScoreDirectorFact
     /**
      * @return never null
      */
-    func getSolutionDescriptor() -> SolutionDescriptor<Solution_>
+    func getSolutionDescriptor() -> SolutionDescriptor<Solution_, Score_>
 
     /**
      * @return never null

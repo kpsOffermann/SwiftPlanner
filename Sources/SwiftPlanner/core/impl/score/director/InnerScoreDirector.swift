@@ -24,7 +24,6 @@
          limited to) translating the original file to Swift.
  */
 
-// WIP: requires ScoreDirectorFactory for getScoreDirectorFactory
 // WIP: requires VariableDescriptor, ListVariableDescriptor for part II
 // WIP: Features of AutoCloseable
 
@@ -43,7 +42,7 @@ public protocol InnerScoreDirector<Solution_, Score_> : ScoreDirector/*, AutoClo
      *
      * @param workingSolution never null
      */
-    func setWorkingSolution(workingSolution: Solution_)
+    func setWorkingSolution(_ workingSolution: Solution_)
 
     /**
      * Calculates the {@link Score} and updates the {@link PlanningSolution working solution} accordingly.
@@ -145,7 +144,7 @@ public protocol InnerScoreDirector<Solution_, Score_> : ScoreDirector/*, AutoClo
     /**
      * @return never null
      */
-    func getSolutionDescriptor() -> SolutionDescriptor<Solution_>
+    func getSolutionDescriptor() -> SolutionDescriptor<Solution_, Score_>
 
     /**
      * @return never null

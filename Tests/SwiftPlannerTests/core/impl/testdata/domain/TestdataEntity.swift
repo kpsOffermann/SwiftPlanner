@@ -31,7 +31,7 @@ public class TestdataEntity : TestdataObject, PlanningEntity {
 
     public static let VALUE_FIELD = "value"
 
-    public static func buildEntityDescriptor() -> EntityDescriptor<TestdataSolution> {
+    public static func buildEntityDescriptor() -> EntityDescriptor<TestdataSolution, SimpleScore> {
         return TestdataSolution.buildSolutionDescriptor().findEntityDescriptorOrFail(TestdataEntity.self)
     }
 
