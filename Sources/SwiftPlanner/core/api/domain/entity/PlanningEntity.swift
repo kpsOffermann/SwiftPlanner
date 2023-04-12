@@ -39,7 +39,7 @@ public protocol PlanningEntityAnnotation {}
  */
 // WIP: @Target({ TYPE })
 // WIP: @Retention(RUNTIME)
-public protocol PlanningEntity : PlanningEntityAnnotation {
+public protocol PlanningEntity : PlanningEntityAnnotation, ClassAnnotation {
 
     /**
      * A pinned planning entity is never changed during planning,

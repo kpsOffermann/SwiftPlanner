@@ -24,12 +24,10 @@
          limited to) translating the original file to Swift.
  */
 
-// WIP: annotations
-
 @testable import SwiftPlanner
 
-// WIP: @PlanningSolution
-public class TestdataSolution : TestdataObject {
+// @PlanningSolution implemented by conformance
+public class TestdataSolution : TestdataObject, PlanningSolution {
 
     public static func buildSolutionDescriptor() -> SolutionDescriptor<TestdataSolution> {
         return SolutionDescriptor.buildSolutionDescriptor(
