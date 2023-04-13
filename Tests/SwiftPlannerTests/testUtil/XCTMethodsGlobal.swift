@@ -18,6 +18,42 @@
 import XCTest
 import SwiftPlanner
 
+/**
+ The method assert the count of calls with the given parameters in the call stack.
+ 
+ The call stack can be obtained by mocking (see e.g. ScoreDirector_Mock.callsTo_beforeEntityAdded).
+ */
+func XCTAssertCallsTo<S, T : Equatable>(
+        _ callStack: [S],
+        parameter: T,
+        count: Int,
+        file: StaticString = #file,
+        line: UInt = #line
+) {
+    XCTAssertEqual(callStack.filter({ parameter == $0 as? T }).count, count, file: file, line: line)
+    print(callStack)
+    print(parameter)
+    print(count)
+}
+
+/**
+ The method assert the count of calls with the given parameters in the call stack.
+ 
+ The call stack can be obtained by mocking (see e.g. ScoreDirector_Mock.callsTo_beforeEntityAdded).
+ */
+func XCTAssertCallsTo<S: Equatable, T : Equatable, X, Y>(
+        _ callStack: [(X, Y)],
+        parameter: (S, T),
+        count: Int,
+        file: StaticString = #file,
+        line: UInt = #line
+) {
+    XCTAssertEqual(callStack.filter({ parameter == ($0.0 as? S, $0.1 as? T) }).count, count, file: file, line: line)
+    print(callStack)
+    print(parameter)
+    print(count)
+}
+
 func XCTAssertEqual<E : Equatable>(
         _ actual: [E],
         _ expected: E...,

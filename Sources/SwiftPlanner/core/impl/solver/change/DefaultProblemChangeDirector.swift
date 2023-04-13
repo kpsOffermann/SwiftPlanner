@@ -24,11 +24,14 @@
          limited to) translating the original file to Swift.
  */
 
-public final class DefaultProblemChangeDirector<Solution_ : PlanningSolution> : ProblemChangeDirector {
+public final class DefaultProblemChangeDirector<
+        Solution_ : PlanningSolution,
+        Score_ : Score
+> : ProblemChangeDirector {
 
-    private let scoreDirector: any InnerScoreDirector<Solution_, any Score>
+    private let scoreDirector: any InnerScoreDirector<Solution_, Score_>
 
-    public init(scoreDirector: any InnerScoreDirector<Solution_, any Score>) {
+    public init(scoreDirector: any InnerScoreDirector<Solution_, Score_>) {
         self.scoreDirector = scoreDirector
     }
 
@@ -97,7 +100,7 @@ public final class DefaultProblemChangeDirector<Solution_ : PlanningSolution> : 
         scoreDirector.lookUpWorkingObjectOrReturnNull(externalObject)
     }
 
-    public func doProblemChange(_ problemChange: any ProblemChange<Solution_>) -> any Score {
+    public func doProblemChange(_ problemChange: any ProblemChange<Solution_>) -> Score_ {
         problemChange.doChange(
             workingSolution: scoreDirector.getWorkingSolution(),
             problemChangeDirector: self

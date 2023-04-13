@@ -94,13 +94,13 @@ public class TestdataLavishSolution : TestdataObject, PlanningSolution {
     // WIP: Check mirror annotation lookup for multiple (nested?) annotations
     @ValueRangeProvider(id: "valueRange")
     @ProblemFactCollectionProperty
-    public private(set) var valueList: [TestdataLavishValue]? = nil
+    public var valueList: [TestdataLavishValue]? = nil
     @ProblemFactCollectionProperty
     public private(set) var extraList: [TestdataLavishExtra]?
     @ProblemFactCollectionProperty
     public private(set) var entityGroupList: [TestdataLavishEntityGroup]?
     @PlanningEntityCollectionProperty
-    public private(set) var entityList: [TestdataLavishEntity]?
+    public var entityList: [TestdataLavishEntity]?
 
     @PlanningScore
     public private(set) var score: SimpleScore?
@@ -137,20 +137,12 @@ public class TestdataLavishSolution : TestdataObject, PlanningSolution {
         self.valueGroupList = valueGroupList
     }
 
-    public func setValueList(_ valueList: [TestdataLavishValue]) {
-        self.valueList = valueList
-    }
-
     public func setExtraList(_ extraList: [TestdataLavishExtra]) {
         self.extraList = extraList
     }
 
     public func setEntityGroupList(_ entityGroupList: [TestdataLavishEntityGroup]) {
         self.entityGroupList = entityGroupList
-    }
-
-    public func setEntityList(_ entityList: [TestdataLavishEntity]) {
-        self.entityList = entityList
     }
 
     public func setScore(_ score: SimpleScore) {

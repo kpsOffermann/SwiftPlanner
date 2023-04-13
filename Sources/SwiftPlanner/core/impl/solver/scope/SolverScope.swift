@@ -44,7 +44,7 @@ public class SolverScope<Solution_ : PlanningSolution, Score_ : Score> {
     var startingSolverCount: Int = 0
     var workingRandom: RandomNumberGenerator
     var scoreDirector: any InnerScoreDirector<Solution_, Score_>
-    private var problemChangeDirector: DefaultProblemChangeDirector<Solution_>
+    private var problemChangeDirector: DefaultProblemChangeDirector<Solution_, Score_>
     
     /*
     /**
@@ -77,7 +77,7 @@ public class SolverScope<Solution_ : PlanningSolution, Score_ : Score> {
             monitoringTags: Tags,
             workingRandom: RandomNumberGenerator,
             scoreDirector: any InnerScoreDirector<Solution_, Score_>,
-            problemChangeDirector: DefaultProblemChangeDirector<Solution_>
+            problemChangeDirector: DefaultProblemChangeDirector<Solution_, Score_>
     ) {
         self.monitoringTags = monitoringTags
         self.workingRandom = workingRandom
@@ -85,12 +85,12 @@ public class SolverScope<Solution_ : PlanningSolution, Score_ : Score> {
         self.problemChangeDirector = problemChangeDirector
     }
 
-    public func getProblemChangeDirector() -> DefaultProblemChangeDirector<Solution_> {
+    public func getProblemChangeDirector() -> DefaultProblemChangeDirector<Solution_, Score_> {
         return problemChangeDirector
     }
 
     public func setProblemChangeDirector(
-            _ problemChangeDirector: DefaultProblemChangeDirector<Solution_>
+            _ problemChangeDirector: DefaultProblemChangeDirector<Solution_, Score_>
     ) {
         self.problemChangeDirector = problemChangeDirector
     }

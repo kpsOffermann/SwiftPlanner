@@ -23,92 +23,136 @@
  Each method that is called during the test has to be initialized beforehand/overridden.
  A call to a not-initialized/notoverridden method will result in an illegal state error.
  */
-class ScoreDirector_Mock<Solution_> : ScoreDirector {
+class ScoreDirector_Mock<Solution_ : PlanningSolution> : ScoreDirector {
     
-    var mock_getWorkingSolution: (() -> TestdataSolution)?
+    var mock_getWorkingSolution: (() -> Solution_)?
     
-    func getWorkingSolution() -> TestdataSolution {
+    func getWorkingSolution() -> Solution_ {
         (mock_getWorkingSolution ?? illegalState("Not mocked method of ScoreDirector_Mock called!"))()
     }
     
+    var callsTo_beforeEntityAdded = [Any]()
+    
     func beforeEntityAdded(_ entity: Any) {
-        illegalState("Not mocked method of ScoreDirector_Mock called!")
+        callsTo_beforeEntityAdded.append(entity)
+        /* Do nothing */
     }
+    
+    var callsTo_afterEntityAdded = [Any]()
     
     func afterEntityAdded(_ entity: Any) {
-        illegalState("Not mocked method of ScoreDirector_Mock called!")
+        callsTo_afterEntityAdded.append(entity)
+        /* Do nothing */
     }
+    
+    var callsTo_beforeVariableChanged = [(Any, String)]()
     
     func beforeVariableChanged(entity: Any, variableName: String) {
-        illegalState("Not mocked method of ScoreDirector_Mock called!")
+        callsTo_beforeVariableChanged.append((entity, variableName))
+        /* Do nothing */
     }
     
+    var callsTo_afterVariableChanged = [(Any, String)]()
+    
     func afterVariableChanged(entity: Any, variableName: String) {
-        illegalState("Not mocked method of ScoreDirector_Mock called!")
+        callsTo_afterVariableChanged.append((entity, variableName))
+        /* Do nothing */
     }
     
     func beforeListVariableElementAssigned(entity: Any, variableName: String, element: Any) {
-        illegalState("Not mocked method of ScoreDirector_Mock called!")
+        /* Do nothing */
     }
     
     func afterListVariableElementAssigned(entity: Any, variableName: String, element: Any) {
-        illegalState("Not mocked method of ScoreDirector_Mock called!")
+        /* Do nothing */
     }
     
     func beforeListVariableElementUnassigned(entity: Any, variableName: String, element: Any) {
-        illegalState("Not mocked method of ScoreDirector_Mock called!")
+        /* Do nothing */
     }
     
     func afterListVariableElementUnassigned(entity: Any, variableName: String, element: Any) {
-        illegalState("Not mocked method of ScoreDirector_Mock called!")
+        /* Do nothing */
     }
     
     func beforeListVariableChanged(entity: Any, variableName: String, fromIndex: Int, toIndex: Int) {
-        illegalState("Not mocked method of ScoreDirector_Mock called!")
+        /* Do nothing */
     }
     
     func afterListVariableChanged(entity: Any, variableName: String, fromIndex: Int, toIndex: Int) {
-        illegalState("Not mocked method of ScoreDirector_Mock called!")
+        /* Do nothing */
     }
     
     func triggerVariableListeners() {
-        illegalState("Not mocked method of ScoreDirector_Mock called!")
+        /* Do nothing */
     }
+    
+    var callsTo_beforeEntityRemoved = [Any]()
     
     func beforeEntityRemoved(_ entity: Any) {
-        illegalState("Not mocked method of ScoreDirector_Mock called!")
+        callsTo_beforeEntityRemoved.append(entity)
+        /* Do nothing */
     }
+    
+    var callsTo_afterEntityRemoved = [Any]()
     
     func afterEntityRemoved(_ entity: Any) {
-        illegalState("Not mocked method of ScoreDirector_Mock called!")
+        callsTo_afterEntityRemoved.append(entity)
+        /* Do nothing */
     }
+    
+    var callsTo_beforeProblemFactAdded = [Any]()
     
     func beforeProblemFactAdded(_ problemFact: Any) {
-        illegalState("Not mocked method of ScoreDirector_Mock called!")
+        callsTo_beforeProblemFactAdded.append(problemFact)
+        /* Do nothing */
     }
+    
+    var callsTo_afterProblemFactAdded = [Any]()
     
     func afterProblemFactAdded(_ problemFact: Any) {
-        illegalState("Not mocked method of ScoreDirector_Mock called!")
+        callsTo_afterProblemFactAdded.append(problemFact)
+        /* Do nothing */
     }
+    
+    var callsTo_beforeProblemPropertyChanged = [Any]()
     
     func beforeProblemPropertyChanged(_ problemFactOrEntity: Any) {
-        illegalState("Not mocked method of ScoreDirector_Mock called!")
+        callsTo_beforeProblemPropertyChanged.append(problemFactOrEntity)
+        /* Do nothing */
     }
+    
+    var callsTo_afterProblemPropertyChanged = [Any]()
     
     func afterProblemPropertyChanged(_ problemFactOrEntity: Any) {
-        illegalState("Not mocked method of ScoreDirector_Mock called!")
+        callsTo_afterProblemPropertyChanged.append(problemFactOrEntity)
+        /* Do nothing */
     }
+    
+    var callsTo_beforeProblemFactRemoved = [Any]()
     
     func beforeProblemFactRemoved(_ problemFact: Any) {
-        illegalState("Not mocked method of ScoreDirector_Mock called!")
+        callsTo_beforeProblemFactRemoved.append(problemFact)
+        /* Do nothing */
     }
+    
+    var callsTo_afterProblemFactRemoved = [Any]()
     
     func afterProblemFactRemoved(_ problemFact: Any) {
-        illegalState("Not mocked method of ScoreDirector_Mock called!")
+        callsTo_afterProblemFactRemoved.append(problemFact)
+        /* Do nothing */
     }
     
+    var mock_lookUpWorkingObject: ((_ externalObject: Any) -> Any)?
+    
     func lookUpWorkingObject<E>(_ externalObject: E) -> E {
-        illegalState("Not mocked method of ScoreDirector_Mock called!")
+        guard let closure = mock_lookUpWorkingObject else {
+            return illegalState("Not mocked method of ScoreDirector_Mock called!")
+        }
+        return closure(externalObject) as? E
+            ?? illegalState(
+                "Return value of mocked lookUpWorkingObject has to be of type \(E.self)!"
+            )
     }
     
     func lookUpWorkingObjectOrReturnNull<E>(_ externalObject: E) -> E? {

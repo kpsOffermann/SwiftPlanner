@@ -113,3 +113,17 @@ public extension ProblemChange {
     }
     
 }
+
+public class DefaultProblemChange<Solution_> : ProblemChange {
+    
+    private let doChangeClosure: (Solution_, ProblemChangeDirector) -> Void
+    
+    init(doChange: @escaping (Solution_, ProblemChangeDirector) -> Void) {
+        self.doChangeClosure = doChange
+    }
+    
+    public func doChange(workingSolution: Solution_, problemChangeDirector: ProblemChangeDirector) {
+        doChangeClosure(workingSolution, problemChangeDirector)
+    }
+    
+}
